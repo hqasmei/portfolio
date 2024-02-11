@@ -14,7 +14,7 @@ Built with Next js and hosted at Vercel ▲
 - Follow the metrics <a href="https://pagespeed.web.dev/analysis/https-hosnaqasmei-com/mmfk4zu0i0?form_factor=mobile">here</a>
 - <a href="https://www.opengraph.xyz/url/https%3A%2F%2Fhosnaqasmei.com%2F">OG Reviews</a>
 
-
+![Captura de Ecrã (603)](https://github.com/euotiniel/portfolio/assets/93485038/9a583e60-22e0-42a0-b2b9-f8c7c0800d40)
 
 ---
 
