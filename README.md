@@ -1,6 +1,6 @@
 ## Hosna Qasmei portfolio
 
-My personal website ✨
+My portfolio built with Next.js 14 and Tailwind CSS ✨
 
 <p align="">
     <a href="https://hosnaqasmei.com/">me</a> .
