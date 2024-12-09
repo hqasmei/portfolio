@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 
 import '../styles/globals.css';
 
@@ -7,7 +7,7 @@ import { ContextProvider } from '@/components/context-provider';
 import MaxWidthWrapper from '@/components/max-width-wrapper';
 import { Toaster } from 'sonner';
 
-const inter = Inter({ subsets: ['latin'] });
+const dmSans = DM_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.hosnaqasmei.com/'),
@@ -66,7 +66,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body
-        className={`bg-primary text-secondary text-sm md:text-base ${inter.className}`}
+        className={`bg-primary text-secondary text-sm md:text-base ${dmSans.className}`}
       >
         <ContextProvider>
           <main className="min-h-screen flex flex-col items-center">

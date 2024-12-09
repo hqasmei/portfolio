@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { CONFIG } from '@/config';
+import { CONFIG } from '@/lib/config';
 import { EllipsisVertical } from 'lucide-react';
 
 const socialBorder = `border group hover:border-secondaryDarker duration-200 rounded px-1.5 py-1 border-neutral-800 items-center flex`;
@@ -21,7 +21,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <header className="flex flex-row justify-between  items-center space-y-0 w-full md:px-6 max-w-3xl animate-slide-from-down-and-fade-1">
+      <header className="flex flex-row justify-between items-center space-y-0 w-full max-w-3xl animate-slide-from-down-and-fade-1">
         <div className="flex flex-row items-center space-x-3">
           <Image
             src={CONFIG.headshot}

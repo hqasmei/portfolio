@@ -1,5 +1,7 @@
 import React from 'react';
-import { SOCIAL_ICON_STYLE } from '@/consts';
+
+import { SOCIAL_ICON_STYLE } from '@/lib/constants';
+
 export const DiscordIcon = () => {
   return (
     <svg

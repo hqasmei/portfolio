@@ -1,4 +1,4 @@
-import { CONFIG } from '@/config';
+import { CONFIG } from '@/lib/config';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 

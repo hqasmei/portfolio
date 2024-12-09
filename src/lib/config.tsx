@@ -69,7 +69,7 @@ and experience on web & mobile development.`,
       link: 'https://www.portfolioshub.com/',
     },
     {
-      featured: true,
+      featured: false,
       name: 'GuessParty',
       slug: 'guessparty',
       description: 'A game where you guess who the displayed items belongs to.',

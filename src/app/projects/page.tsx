@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import MaxWidthWrapper from '@/components/max-width-wrapper';
-import { CONFIG } from '@/config';
+import { CONFIG } from '@/lib/config';
 
 export const metadata = {
   title: 'Projects',
