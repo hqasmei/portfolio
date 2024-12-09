@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm-run-all --parallel dev:frontend dev:backend",
-    "dev:frontend": "next dev --turbo",
-    "dev:backend": "convex dev --typecheck=disable",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "npm-run-all --parallel dev:frontend dev:backend",
+    "dev:backend": "convex dev --typecheck=disable",
+    "dev:frontend": "next dev --turbo",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
@@ -26,6 +26,7 @@
     "@types/needle": "^3.3.0",
     "@upstash/redis": "^1.28.2",
     "axios": "^1.6.7",
+    "caniuse-lite": "",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "convex": "^1.9.1",
@@ -39,6 +40,7 @@
     "react-hook-form": "^7.51.4",
     "rehype-prism-plus": "^2.0.0",
     "sonner": "^1.4.41",
+    "sst": "3.3.59",
     "sugar-high": "^0.5.6",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

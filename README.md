@@ -24,3 +24,8 @@ Go to [Upstash](https://upstash.com/), create an account, create a database in U
 ## Analytics
 
 Go to [Beam Analytics](https://beamanalytics.io/), add your url and replace the data-token in src/app/layout.tsx.
+
+npx sst deploy --stage prod
+npx sst remove --stage prod
+
+sst secret set MySecret my-secret-value --stage prod

@@ -38,3 +38,9 @@ next-env.d.ts
 
 cronjob
 
+
+# sst
+.sst
+
+# open-next
+.open-next
