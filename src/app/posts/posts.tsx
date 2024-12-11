@@ -48,7 +48,6 @@ export default function Posts({
         <span className="text-4xl font-bold mb-6 md:mb-4 animate-slide-from-down-and-fade-2">
           All Posts
         </span>
-        
 
         <div>
           <div className="grid grid-cols-1 gap-6 md:gap-1 md:-px-2 animate-slide-from-down-and-fade-3">

@@ -1,0 +1,215 @@
+---
+title: 'Building Notification Banners in Next.js 15'
+publishedAt: '2024-12-02'
+summary: 'Learn how to implement effective notification banners with cookie persistence in Next.js.'
+slug: 'building-notification-banners-in-nextjs15'
+featured: 'true'
+tag: 'technical'
+---
+
+
+As I've built more Next.js applications, I've found notification banners to be a crucial UI element for communicating with users. Let me share how to implement them effectively using cookies for persistence.
+
+## Real-World Applications
+
+TechCrunch and WSJ both demonstrate effective banner implementations:
+
+- TechCrunch uses a persistent banner for event promotion
+- WSJ implements a subscription banner with clear call-to-action
+
+<figure className="text-center">
+  <Image 
+    src="/images/wsj-banner.png"
+    alt="Wall Street Journal Banner"
+    width={800}
+    height={400}
+  />
+  <figcaption className="text-sm">
+    WSJ uses a subscription banner at the bottom of their page with a clear call-to-action "$1/Week"
+  </figcaption>
+</figure>
+
+<figure className="text-center">
+  <Image 
+    src="/images/techcrunch-banner.png"
+    alt="TechCrunch Banner"
+    width={800}
+    height={400}
+  />
+  <figcaption className="text-sm">
+    TechCrunch implements a promotional banner for their Disrupt 2025 event, utilizing the full width of the page
+  </figcaption>
+</figure>
+
+## Understanding Cookie-Based Persistence
+
+When building notification banners, we need two key operations:
+
+1.  **Getting cookie**s: Check if the user has previously dismissed the banner
+2. **Setting cookies**: Save the user's preference when they dismiss the banner
+ 
+<CodeBlock title="utils/cookies.ts">
+```tsx showLineNumbers
+import { cookies } from 'next/headers'
+
+export function getBannerCookie() {
+  const cookieStore = cookies()
+  return cookieStore.get('banner-dismissed')
+}
+
+export function setBannerCookie() {
+  const oneWeek = 7 * 24 * 60 * 60 * 1000
+  cookies().set('banner-dismissed', 'true', { expires: Date.now() + oneWeek })
+}
+```
+</CodeBlock>
+
+## Server Component Approach
+
+Next.js 14 makes it easy to handle cookies in Server Components:
+
+<CodeBlock title="components/Banner.tsx">
+```tsx showLineNumbers
+import { getBannerCookie } from '@/utils/cookies'
+
+export default async function Banner() {
+  const dismissedCookie = await getBannerCookie()
+
+  if (dismissedCookie) {
+    return null
+  }
+
+  return (
+    <div className="fixed bottom-0 w-full bg-white border-t p-4">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <span>Join us for our upcoming event!</span>
+        <button>Close</button>
+      </div>
+    </div>
+  )
+}
+
+```
+</CodeBlock>
+
+## Client Component with Server Actions
+
+For interactive banners, we can combine Client Components with Server Actions:
+
+<CodeBlock title="app/BannerWrapper.tsx">
+```tsx showLineNumbers
+'use client'
+
+import { useOptimistic } from 'react'
+import { setBannerCookie } from '@/utils/cookies'
+
+export function DismissButton() {
+  const [optimisticHidden, setOptimisticHidden] = useOptimistic(false)
+
+  async function dismiss() {
+    setOptimisticHidden(true)
+    await setBannerCookie()
+  }
+
+  if (optimisticHidden) {
+    return null
+  }
+
+  return (
+    <button onClick={dismiss}>
+      Dismiss
+    </button>
+  )
+}
+
+```
+</CodeBlock>
+
+## Using Middleware for Cookie Logic
+
+Sometimes we want to check cookies before the page even loads:
+
+<CodeBlock title="middleware.ts">
+```tsx showLineNumbers
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  const bannerDismissed = request.cookies.get('banner-dismissed')
+
+  // You can modify the response based on cookie presence
+  if (bannerDismissed) {
+    // Do something
+  }
+
+  return NextResponse.next()
+}
+
+```
+</CodeBlock>
+
+## Example Implementation
+
+Here's how all these pieces come together:
+
+<CodeBlock title="app/BannerWrapper.tsx">
+```tsx showLineNumbers
+'use client'
+
+import { useState, useEffect } from 'react'
+import { getBannerCookie, setBannerCookie } from '@/utils/cookies'
+
+export default function BannerWrapper() {
+  const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    const checkCookie = async () => {
+      const dismissed = await getBannerCookie()
+      if (dismissed) setIsVisible(false)
+    }
+    checkCookie()
+  }, [])
+
+  const dismissBanner = async () => {
+    await setBannerCookie()
+    setIsVisible(false)
+  }
+
+  if (!isVisible) return null
+
+  return (
+    <div className="fixed bottom-0 w-full bg-indigo-600">
+      <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          <span className="text-white">
+            Early bird tickets available now!
+          </span>
+          <button
+            onClick={dismissBanner}
+            className="text-white hover:text-gray-200"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+```
+</CodeBlock>
+
+## Best Practices for Cookie-Based Banners
+
+Through implementation, I've learned these key practices:
+
+1. **Set Appropriate Expiry**: Consider how long the banner should stay dismissed
+2. **Handle SSR Gracefully**: Account for server/client hydration
+3. **Use TypeScript**: For better type safety with cookie operations
+4. **Consider Cookie Size**: Keep stored data minimal
+5. **Respect User Preferences**: Don't reset cookies without good reason
+
+
+## Conclusion
+
+Cookie-based notification banners in Next.js provide a powerful way to manage user preferences while maintaining a clean user experience. By combining Server Components, Client Components, and Server Actions, we can create robust, persistent notifications that respect user choices.
