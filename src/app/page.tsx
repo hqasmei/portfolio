@@ -122,7 +122,7 @@ export default async function Home() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="flex flex-row justify-between items-start md:items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
+                      className="flex flex-row gap-4 justify-between items-start md:items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
                     >
                       <span className="text-secondaryDark">
                         {post.metadata.title}
