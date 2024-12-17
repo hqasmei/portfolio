@@ -5,10 +5,6 @@ import { TwitchIcon } from '@/components/icons/twitch';
 import { XIcon } from '@/components/icons/x';
 import { YouTubeIcon } from '@/components/icons/youtube';
 
-
-
-
-
 export const CONFIG = {
   name: 'Hosna Qasmei',
   headshot: '/headshot.png',
@@ -53,7 +49,7 @@ and experience on web & mobile development.`,
       link: 'https://projectplannerai.com/',
     },
     {
-      featured: true,
+      featured: false,
       name: 'TechStackFinder',
       slug: 'tech-stack-finder',
       description: 'Top stacks for building projects and SaaS.',

@@ -39,9 +39,9 @@ export default async function Home() {
     <>
       <SendEventOnLoad eventKey="User hit home page" />
       <Header />
-      <div className="flex flex-col space-y-6 md:space-y-12 pb-8 pt-4">
+      <div className="flex flex-col gap-6 md:gap-12 pb-8 pt-4">
         <div className="flex flex-col md:px-6 animate-slide-from-down-and-fade-2">
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col gap-2">
             <span className="font-semibold ">About me</span>
             <span className="text-neutral-300/80 leading-6">
               {CONFIG.description}
@@ -49,12 +49,12 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-6 md:space-y-12">
+        <div className="flex flex-col gap-6 md:gap-12">
           {/* Projects */}
-          <div className="flex flex-col space-y-4 animate-slide-from-down-and-fade-3">
-            <div className="flex flex-col space-y-2">
-              <span className="font-semibold md:px-6 ">Featured Projects</span>
-              <div className="flex flex-col space-y-8 md:space-y-1 md:px-2">
+          <div className="flex flex-col gap-4 animate-slide-from-down-and-fade-3">
+            <div className="flex flex-col gap-2">
+              <span className="font-semibold md:px-6">Featured Projects</span>
+              <div className="flex flex-col gap-6 md:gap-1 md:px-2">
                 {CONFIG.projects.map((project, idx) => {
                   if (project.featured) {
                     return (
@@ -62,15 +62,15 @@ export default async function Home() {
                         key={idx}
                         href={project.link}
                         target="_blank"
-                        className="group flex flex-row justify-between items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
+                        className="group flex gap-4 flex-row justify-between items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
                       >
-                        <div className="flex flex-row space-x-4">
+                        <div className="flex flex-row items-center gap-4">
                           <Image
                             src={project.image}
                             alt=""
                             width={40}
                             height={40}
-                            className="w-[40px] h-[40px]"
+                            className="w-9 h-9"
                           />
                           <div className="flex flex-col">
                             <span className="text-secondaryDark">
@@ -81,12 +81,10 @@ export default async function Home() {
                             </span>
                           </div>
                         </div>
-                        <div>
-                          <ExternalLink
-                            size={18}
-                            className="transform scale-0 group-hover:scale-100 transition-transform duration-300 text-secondary"
-                          />
-                        </div>
+                        <ExternalLink
+                          size={16}
+                          className="transform md:scale-0 md:group-hover:scale-100 transition-transform duration-300 text-secondaryDarker"
+                        />
                       </Link>
                     );
                   }
@@ -95,7 +93,7 @@ export default async function Home() {
             </div>
             <Link
               href="/projects"
-              className="flex flex-row space-x-2 items-center md:px-6 group cursor-pointer justify-end"
+              className="flex flex-row gap-2 items-center md:px-6 group cursor-pointer justify-end"
             >
               <span className="text-neutral-400 text-sm hover:underline underline-offset-4 hover:text-secondary duration-200">
                 All Projects
@@ -104,10 +102,10 @@ export default async function Home() {
           </div>
 
           {/* Posts */}
-          <div className="flex flex-col space-y-4 animate-slide-from-down-and-fade-4">
-            <div className="flex flex-col space-y-2">
-              <span className="font-semibold md:px-6 ">Featured Posts</span>
-              <div className="flex flex-col space-y-8 md:space-y-1 md:px-2">
+          <div className="flex flex-col gap-4 animate-slide-from-down-and-fade-4">
+            <div className="flex flex-col gap-2">
+              <span className="font-semibold md:px-6">Featured Posts</span>
+              <div className="flex flex-col gap-6 md:gap-1 md:px-2">
                 {allPosts
                   .filter((post) => post.metadata.featured === 'true')
                   .sort((a, b) => {
@@ -124,16 +122,13 @@ export default async function Home() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="flex flex-col gap-1 items-start duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
+                      className="flex flex-row justify-between items-start md:items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
                     >
-                      <span className="text-secondaryDarker text-sm whitespace-nowrap">
-                        {reformatDate(post.metadata.publishedAt)}
-                      </span>
                       <span className="text-secondaryDark">
                         {post.metadata.title}
                       </span>
-                      <span className="text-secondaryDarker text-sm">
-                        {post.metadata.summary}
+                      <span className="text-secondaryDarker text-sm whitespace-nowrap">
+                        {reformatDate(post.metadata.publishedAt)}
                       </span>
                     </Link>
                   ))}
@@ -142,7 +137,7 @@ export default async function Home() {
 
             <Link
               href="/posts"
-              className="flex flex-row space-x-2 items-center md:px-6 group cursor-pointer  justify-end"
+              className="flex flex-row gap-2 items-center md:px-6 group cursor-pointer  justify-end"
             >
               <span className="text-neutral-400 text-sm hover:underline underline-offset-4 hover:text-secondary duration-200">
                 All Posts

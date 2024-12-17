@@ -48,27 +48,25 @@ export default function ProjectsPage() {
                   target="_blank"
                   className="flex group flex-row justify-between space-x-8 md:space-x-0 items-center duration-300 md:hover:bg-hoverBackground md:p-4 rounded-lg cursor-pointer"
                 >
-                  <div className="flex flex-row space-x-4 items-center">
+                  <div className="flex flex-row items-center gap-4">
                     <Image
                       src={project.image}
                       alt=""
                       width={40}
                       height={40}
-                      className="w-[40px] h-[40px]"
+                      className="w-9 h-9"
                     />
                     <div className="flex flex-col">
                       <span className="text-secondaryDark">{project.name}</span>
-                      <span className="text-secondaryDarker">
+                      <span className="text-secondaryDarker text-sm">
                         {project.description}
                       </span>
                     </div>
                   </div>
-                  <div>
-                    <ExternalLink
-                      size={18}
-                      className="transform scale-0 group-hover:scale-100 transition-transform duration-300 text-secondary"
-                    />
-                  </div>
+                  <ExternalLink
+                    size={16}
+                    className="transform md:scale-0 md:group-hover:scale-100 transition-transform duration-300 text-secondaryDarker"
+                  />
                 </Link>
               );
             })}
