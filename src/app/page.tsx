@@ -6,6 +6,7 @@ import { CONFIG } from '@/lib/config';
 import { getPosts } from '@/lib/posts';
 import { reformatDate } from '@/lib/utils';
 import { Redis } from '@upstash/redis';
+import { ExternalLink } from 'lucide-react';
 
 import Footer from './_components/footer';
 import Header from './_components/header';
@@ -61,7 +62,7 @@ export default async function Home() {
                         key={idx}
                         href={project.link}
                         target="_blank"
-                        className="flex flex-row justify-between items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
+                        className="group flex flex-row justify-between items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
                       >
                         <div className="flex flex-row space-x-4">
                           <Image
@@ -75,10 +76,16 @@ export default async function Home() {
                             <span className="text-secondaryDark">
                               {project.name}
                             </span>
-                            <span className="text-secondaryDarker">
+                            <span className="text-secondaryDarker text-sm">
                               {project.description}
                             </span>
                           </div>
+                        </div>
+                        <div>
+                          <ExternalLink
+                            size={18}
+                            className="transform scale-0 group-hover:scale-100 transition-transform duration-300 text-secondary"
+                          />
                         </div>
                       </Link>
                     );
@@ -117,14 +124,16 @@ export default async function Home() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="flex flex-row justify-between space-x-2 items-start md:items-center duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
+                      className="flex flex-col gap-1 items-start duration-300 md:hover:bg-hoverBackground md:px-4 md:py-3 rounded-lg cursor-pointer"
                     >
+                      <span className="text-secondaryDarker text-sm whitespace-nowrap">
+                        {reformatDate(post.metadata.publishedAt)}
+                      </span>
                       <span className="text-secondaryDark">
                         {post.metadata.title}
                       </span>
-
-                      <span className="text-neutral-400 text-sm whitespace-nowrap">
-                        {reformatDate(post.metadata.publishedAt)}
+                      <span className="text-secondaryDarker text-sm">
+                        {post.metadata.summary}
                       </span>
                     </Link>
                   ))}

@@ -3,8 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import MaxWidthWrapper from '@/components/max-width-wrapper';
 import { CONFIG } from '@/lib/config';
+import { ExternalLink } from 'lucide-react';
 
 export const metadata = {
   title: 'Projects',
@@ -46,7 +46,7 @@ export default function ProjectsPage() {
                   key={idx}
                   href={project.link}
                   target="_blank"
-                  className="flex flex-row justify-between space-x-8 md:space-x-0 items-center duration-300 md:hover:bg-hoverBackground md:p-4 rounded-lg cursor-pointer"
+                  className="flex group flex-row justify-between space-x-8 md:space-x-0 items-center duration-300 md:hover:bg-hoverBackground md:p-4 rounded-lg cursor-pointer"
                 >
                   <div className="flex flex-row space-x-4 items-center">
                     <Image
@@ -63,21 +63,12 @@ export default function ProjectsPage() {
                       </span>
                     </div>
                   </div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-link text-secondaryDarker w-[20px] md:w-auto"
-                  >
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                  </svg>
+                  <div>
+                    <ExternalLink
+                      size={18}
+                      className="transform scale-0 group-hover:scale-100 transition-transform duration-300 text-secondary"
+                    />
+                  </div>
                 </Link>
               );
             })}

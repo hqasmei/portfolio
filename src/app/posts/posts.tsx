@@ -66,15 +66,17 @@ export default function Posts({
                   <Link
                     key={post.slug}
                     href={`/posts/${post.slug}`}
-                    className="flex flex-row space-x-2 justify-between items-start duration-300 md:hover:bg-hoverBackground -mx-4 p-4 rounded-lg cursor-pointer"
+                    className="flex flex-col gap-1 items-start duration-300 md:hover:bg-hoverBackground -mx-4 p-4 rounded-lg cursor-pointer"
                   >
+                    <span className="text-secondaryDarker text-sm whitespace-nowrap">
+                      {reformatDate(post.metadata.publishedAt)}
+                    </span>
                     <span className="text-secondaryDark">
                       {post.metadata.title}
                     </span>
-
-                    <div className="flex flex-row space-x-2 items-center text-secondaryDarker whitespace-nowrap">
-                      <span>{reformatDate(post.metadata.publishedAt)}</span>
-                    </div>
+                    <span className="text-secondaryDarker text-sm">
+                      {post.metadata.summary}
+                    </span>
                   </Link>
                 );
               })}
