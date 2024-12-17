@@ -12,10 +12,10 @@ const dmSans = DM_Sans({ subsets: ['latin'] });
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.hosnaqasmei.com/'),
   title: { default: 'Hosna Qasmei', template: '%s | Hosna Qasmei' },
-  description: 'Developer & YouTuber',
+  description: 'Developer & Creator',
   openGraph: {
     title: 'Hosna Qasmei',
-    description: 'Developer & YouTuber.',
+    description: 'Developer & Creator.',
     url: 'https://www.hosnaqasmei.com/',
     siteName: 'Hosna Qasmei',
     locale: 'en_US',

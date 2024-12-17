@@ -12,7 +12,7 @@ import { YouTubeIcon } from '@/components/icons/youtube';
 export const CONFIG = {
   name: 'Hosna Qasmei',
   headshot: '/headshot.png',
-  title: 'Software Developer',
+  title: 'Developer & Creator',
   description: `Hi, I'm Hosna. I'm based in Los Angeles, California. In addition to coding, I also make YouTube videos, sharing my knowledge 
 and experience on web & mobile development.`,
   socials: [

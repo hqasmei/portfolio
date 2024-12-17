@@ -14,6 +14,11 @@ import Subscribe from './_components/subscribe';
 const redis = Redis.fromEnv();
 export const revalidate = 0;
 
+export const metadata = {
+  title: 'Hosna Qasmei | Developer & Creator',
+  description: 'Read my thoughts.',
+};
+
 export default async function Home() {
   let allPosts = getPosts();
 
