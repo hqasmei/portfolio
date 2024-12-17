@@ -17,13 +17,15 @@ bun dev
 
 Create a `.env` file similar to [`.env.example`](https://github.com/hqasmei/portfolio/blob/main/.env.example).
 
-## Database 
+## Database
 
 Go to [Upstash](https://upstash.com/), create an account, create a database in Upstash Redis and add the generate UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN.
 
 ## Analytics
 
 Go to [Beam Analytics](https://beamanalytics.io/), add your url and replace the data-token in src/app/layout.tsx.
+
+## SST Commands
 
 npx sst deploy --stage prod
 npx sst remove --stage prod
