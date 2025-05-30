@@ -27,7 +27,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 # Change this to your preferred region
+          aws-region: us-east-1
+
+      - name: Set SST secrets
+        run: |
+          npx sst secret set HostedZoneId ${{ secrets.HOSTED_ZONE_ID }} --stage prod
 
       - name: Deploy to production
         run: npx sst deploy --stage prod
