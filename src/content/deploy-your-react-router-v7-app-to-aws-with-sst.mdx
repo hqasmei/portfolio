@@ -1,0 +1,85 @@
+---
+title: 'Deploy your React Router v7 app to AWS with SST'
+date: '2025-05-14'
+author: 'Hosna Qasmei'
+summary: 'Learn how to deploy your React Router v7 application to AWS using SST for scalable, serverless hosting with automatic CI/CD.'
+tags: ['react router v7', 'sst', 'aws', 'deployment']
+---
+
+If you're looking for an alternative to Vercel that gives you more control over your infrastructure, **SST** is a great option. It lets you deploy React Router v7 apps to your own AWS account with minimal configuration.
+
+[SST](https://sst.dev/docs/) is a framework that makes it easy to build and deploy modern full-stack applications on AWS. Think of it as a developer-friendly wrapper around AWS services that handles the complex infrastructure setup for you.
+
+In this guide, I'll show you how to:
+
+- Add SST to your React Router v7 project
+- Deploy to AWS
+- Set up a custom domain
+
+## Prerequisites
+
+Before we start, make sure you have:
+
+1. **AWS Account** - [Create one here](https://aws.amazon.com/) if you don't have it
+2. **AWS CLI installed and configured** - Follow [SST's AWS setup guide](https://sst.dev/docs/aws-accounts/)
+3. **React Router v7 project** - I'll use my [starter template](https://github.com/hqasmei/react-router-v7-starter)
+
+> 💡 Using my template? Clone it with: git clone https://github.com/hqasmei/react-router-v7-starter.git my-project
+
+### Step 1: Initialize SST
+
+In your React Router v7 project directory, run:
+
+```bash
+npx sst@latest init
+```
+
+SST will detect your React Router project and prompt you:
+
+```bash
+> React Router detected. This will...
+  - create an sst.config.ts
+  - modify the tsconfig.json
+  - add sst to package.json
+? Continue:
+```
+
+**Select "Yes"** to automatically configure everything.
+
+After initialization, you'll see these new files:
+
+- `sst.config.ts` - SST configuration
+- `.sst/` folder - SST internal files
+- Updated `package.json` with SST dependencies
+
+### Step 2: First Deployment
+
+Now let's deploy your app to AWS:
+
+```bash
+npx sst deploy
+```
+
+**What happens during deployment:**
+
+- SST creates AWS resources (CloudFront, Lambda, S3, etc.)
+- Your React Router app gets built and deployed
+- You get a live URL to test your app
+
+This first deployment takes 3-5 minutes since AWS is creating all the infrastructure.
+
+Once complete, you'll see output like:
+
+```bash
+✅  Complete
+   ReactRouter: https://d1234567890.cloudfront.net
+```
+
+Your app is now live on AWS!
+
+### Step 3: Set Up Custom Domain (Optional)
+
+To use your own domain instead of the CloudFront URL, you need:
+
+1. **Domain registered in AWS Route 53** (or ability to change nameservers)
+2. **SSL certificate** (SST can create this automatically)

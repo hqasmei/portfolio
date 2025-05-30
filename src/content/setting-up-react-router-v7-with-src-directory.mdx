@@ -1,0 +1,172 @@
+---
+title: 'Setting Up React Router v7 with src Directory'
+date: '2025-05-12'
+author: 'Hosna Qasmei'
+summary: 'Learn how to configure React Router v7 to use a custom src directory structure for better code organization and a cleaner project layout.'
+tags: ['react router v7', 'project structure', 'configuration']
+---
+
+React Router v7 brings powerful full-stack capabilities to React applications. While the default setup works great out of the box, there are a few tweaks I always make to create a cleaner, more organized project structure.
+
+In this guide, I'll walk you through my preferred React Router v7 setup using **Framework mode**, including how to organize your code in a `src` folder and customize the development server.
+
+## Creating Your React Router v7 Project
+
+Let's start with the official template:
+
+```bash
+npx create-react-router@latest my-react-router-app
+```
+
+When prompted, I typically choose:
+
+- **Initialize a new git repository?** → No (I prefer setting this up manually)
+- **Install dependencies with npm?** → Yes
+
+## Why Use a src Folder Structure?
+
+By default, React Router v7 places the `app` folder at your project root. While this works fine, I prefer organizing everything inside a `src` folder because it:
+
+- **Keeps the root clean** - Configuration files stay at the top level while source code lives in `src`
+- **Matches common React conventions** - Most React developers expect to find components and app logic in `src`
+- **Improves organization** - Makes it easier to separate source code from build tools and config files
+- **Scales better** - As your project grows, having a dedicated source folder prevents clutter
+
+## Moving to src Folder Structure
+
+Here's how to reorganize your project:
+
+```bash
+cd my-react-router-app
+mkdir src
+mv app src/
+```
+
+## Updating Configuration Files
+
+After moving the `app` folder, you need to update several configuration files to point to the new location.
+
+### 1. Update react-router.config.ts
+
+Tell React Router where to find your app directory:
+
+```tsx
+import type { Config } from '@react-router/dev/config';
+
+export default {
+  // Config options...
+  // Server-side render by default, to enable SPA mode set this to `false`
+  ssr: true,
+  appDirectory: './src/app',
+} satisfies Config;
+```
+
+### 2. Update tsconfig.json
+
+Update the TypeScript configuration to include the new `src` structure:
+
+```json
+{
+  "include": [
+    "src",
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
+  ],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["node", "vite/client"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
+  }
+}
+```
+
+The key changes here are:
+
+- Adding `"src"` to the `include` array
+- Setting up path mapping with `"@/*": ["./src/*"]` for cleaner imports
+
+### 3. Update vite.config.ts
+
+The default development server runs on `localhost:5173`, but I prefer the more common `localhost:3000`. Here's how to change it in your `vite.config.ts`:
+
+```tsx
+import { reactRouter } from '@react-router/dev/vite';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
+
+export default defineConfig({
+  plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+  server: {
+    port: 3000,
+  },
+});
+```
+
+**Why port 3000?** It's the conventional port for React development servers, and if you're coming from Create React App or Next.js, it feels more familiar.
+
+## Final Project Structure
+
+After these changes, your project structure will look like this:
+
+```
+my-react-router-app/
+├── src/
+│   ├── app/
+│   │   ├── routes/
+│   │   ├── root.tsx
+│   │   └── ...
+│   ├── components/     (you'll add these)
+│   ├── lib/           (you'll add these)
+│   ├── utils/         (you'll add these)
+│   └── hooks/         (you'll add these)
+├── react-router.config.ts
+├── vite.config.ts
+├── tsconfig.json
+└── package.json
+```
+
+## Common Folders I Add Later
+
+Depending on the project complexity, I typically add these folders inside `src`:
+
+- **`components/`** - Reusable UI components
+- **`lib/`** - Third-party library configurations and utilities
+- **`utils/`** - Pure utility functions
+- **`services/`** - API calls and external service integrations
+- **`hooks/`** - Custom React hooks
+- **`types/`** - TypeScript type definitions
+
+## Time-Saving Template
+
+I've created a custom template with these configurations pre-applied, so I don't have to repeat these steps for every new project.
+
+To use it:
+
+```tsx
+git clone https://github.com/yourusername/react-router-v7-template.git my-new-project
+cd my-new-project
+npm install
+```
+
+You can also fork the official React Router starter and apply these changes yourself.
+
+## Wrapping Up
+
+These small tweaks make React Router v7 projects feel more organized and familiar, especially if you're coming from other React frameworks. The `src` folder structure keeps things tidy, and the port change makes the development experience more consistent with other React tools.

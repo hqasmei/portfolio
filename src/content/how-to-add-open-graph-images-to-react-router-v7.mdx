@@ -1,0 +1,93 @@
+---
+title: 'How to Add Open Graph Images to React Router v7'
+date: '2025-05-13'
+author: 'Hosna Qasmei'
+summary: 'Step-by-step guide to implementing Open Graph meta tags and dynamic social media images in React Router v7 for better link previews on social platforms.'
+tags: ['react router v7', 'open graph', 'seo', 'meta tags']
+---
+
+When you share a link on Twitter, LinkedIn, or in a Slack message, you often see a preview with an image, title, and description. That preview image is called an **Open Graph image**.
+
+In this guide, I'll show you how to add these link previews to your React Router v7 app – it's actually much simpler than you might think.
+
+## What Are Open Graph Images?
+
+Open Graph images are what make links look good when shared. Instead of just showing a plain URL, platforms like Twitter, Facebook, LinkedIn, Slack, and Discord can display:
+
+- A preview image
+- The page title
+- A description
+- The website name
+
+This makes your links more clickable and professional-looking.
+
+### Step 1: Create Your Open Graph Image
+
+First, you need to create the actual image. Here are the specs:
+
+**📏 Standard dimensions:** 1200x630 pixels
+
+**🎨 Design tool:** I use Figma, but any design tool works
+
+**💡 Pro tip:** Keep text large and readable since the image gets scaled down
+
+### Step 2: Add Image to Your Project
+
+Place your image in the `public` folder of your React Router v7 project:
+
+```
+public/
+├── og-images/
+│   └── og-image.png
+└── ...
+```
+
+I created an `og-images` folder since you might add more images for different pages later. But up to you to name it whatever you want.
+
+### Step 3: Update Your Route's Meta Function
+
+Go to the route where you want the Open Graph image to appear and update the `meta` function:
+
+```tsx
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: 'Your Page Title' },
+    { name: 'description', content: 'Your page description' },
+
+    // Open Graph meta tags
+    { property: 'og:title', content: 'Your Page Title' },
+    { property: 'og:description', content: 'Your page description' },
+    {
+      property: 'og:image',
+      content: 'https://yourdomain.com/og-images/og-image.png',
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://yourdomain.com/your-page' },
+
+    // Twitter Card meta tags
+    { name: 'twitter:card', content: 'summary_large_image' },
+    {
+      name: 'twitter:image',
+      content: 'https://yourdomain.com/og-images/og-image.png',
+    },
+  ];
+}
+```
+
+**Important:** Replace `https://yourdomain.com` with your actual deployed website URL. The browser needs the full URL to access the image once your site is live.
+
+### Step 4: Deploy and Test
+
+After deploying your site, test if your Open Graph image works:
+
+**🔍 Testing tool:** [OpenGraph.xyz](https://www.opengraph.xyz/)
+
+Just paste your URL and see how your link preview looks!
+
+### **Why Use Full URLs?**
+
+You might wonder why we use the full website URL instead of just `/og-images/og-image.png`. When social media platforms or messaging apps fetch your Open Graph data, they need the complete URL to access your image from their servers.
+
+### **Wrapping Up**
+
+That's it! Your React Router v7 app now has professional-looking link previews. This small addition makes your content much more engaging when shared across the web.
