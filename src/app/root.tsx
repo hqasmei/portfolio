@@ -52,7 +52,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-background text-foreground flex min-h-screen flex-col">
-        <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 py-6">
+        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 py-8">
           <header className="mx-4 flex items-center justify-between">
             <Link to="/">
               <div className="group flex items-center gap-4">

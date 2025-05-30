@@ -33,7 +33,7 @@ export default function Home() {
   const { posts } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 mt-4">
       <div className="mx-4 flex flex-col gap-2">
         <span className="font-medium">About me</span>
         <span>{config.description}</span>
