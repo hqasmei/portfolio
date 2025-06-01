@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Link, useLoaderData } from 'react-router';
 
-import { MDXProvider } from '@mdx-js/react';
 import { getMDXComponent } from 'mdx-bundler/client';
 
 import { getPostBySlug } from '@/lib/mdx.server';
@@ -85,7 +84,6 @@ export default function Post() {
         </svg>
         Back to posts
       </Link>
-
       <section>
         {/* Title */}
         <h1 className="text-foreground mb-4 text-3xl leading-tight font-bold tracking-tight">
@@ -104,7 +102,7 @@ export default function Post() {
         </div>
       </section>
 
-      <article className="prose prose-invert max-w-none">
+      <article className="prose dark:prose-invert max-w-none">
         <Component />
       </article>
     </main>
