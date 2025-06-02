@@ -81,7 +81,7 @@ export default function Home() {
         })}
         <div className="mx-4 flex justify-end">
           <Link
-            to="/projects"
+            to="/posts"
             className="group text-muted-foreground flex items-center justify-center gap-1 text-sm transition-colors"
           >
             <p className="group-hover:text-foreground transition-all duration-200">
