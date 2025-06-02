@@ -1,5 +1,7 @@
 import { Link, useLoaderData } from 'react-router';
 
+import { ArrowRight } from 'lucide-react';
+
 import PostCard from '@/components/post-card';
 import ProjectCard from '@/components/project-card';
 import config from '@/config';
@@ -33,7 +35,7 @@ export default function Home() {
   const { posts } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col gap-10 mt-4">
+    <div className="mt-4 flex flex-col gap-10">
       <div className="mx-4 flex flex-col gap-2">
         <span className="font-medium">About me</span>
         <span>{config.description}</span>
@@ -52,6 +54,20 @@ export default function Home() {
             }
           })}
         </div>
+        <div className="mx-4 flex justify-end">
+          <Link
+            to="/projects"
+            className="group text-muted-foreground flex items-center justify-center gap-1 text-sm transition-colors"
+          >
+            <p className="group-hover:text-foreground transition-all duration-200">
+              View all projects
+            </p>
+            <ArrowRight
+              size={18}
+              className="group-hover:text-foreground transition-all duration-200 group-hover:translate-x-0.5"
+            />
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 md:gap-1">
@@ -63,6 +79,20 @@ export default function Home() {
             </Link>
           );
         })}
+        <div className="mx-4 flex justify-end">
+          <Link
+            to="/projects"
+            className="group text-muted-foreground flex items-center justify-center gap-1 text-sm transition-colors"
+          >
+            <p className="group-hover:text-foreground transition-all duration-200">
+              View all posts
+            </p>
+            <ArrowRight
+              size={18}
+              className="group-hover:text-foreground transition-all duration-200 group-hover:translate-x-0.5"
+            />
+          </Link>
+        </div>
       </div>
     </div>
   );
