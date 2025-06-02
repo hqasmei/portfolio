@@ -1,10 +1,13 @@
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
 
-export const formatDate = ( dateString: string ): string =>
-  new Date(dateString).toLocaleDateString('en-US', {
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
+};
 
 export const formatReadingTime = (content: string): number => {
   const wordsPerMinute = 200;
