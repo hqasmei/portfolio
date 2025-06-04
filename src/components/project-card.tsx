@@ -16,7 +16,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           className="h-10 w-10 rounded-lg shadow"
         />
         <div className="flex flex-col">
-          <span>{project.name}</span>
+          <h2 className="text-sm">{project.name}</h2>
           <span className="text-muted-foreground text-sm">
             {project.description}
           </span>

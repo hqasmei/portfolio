@@ -11,7 +11,7 @@ export default function PostCard({ post }: { post: Post }) {
   return (
     <div className="group md:hover:bg-muted flex cursor-pointer flex-row items-center justify-between gap-4 rounded-lg px-4 py-1 duration-300 md:py-3">
       <div className="flex flex-col">
-        <h2>{post.title}</h2>
+        <h2 className="text-sm">{post.title}</h2>
         <time className="text-muted-foreground text-sm">
           {formatDate(post.date)}
         </time>

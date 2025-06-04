@@ -5,8 +5,8 @@ import config from '@/config';
 
 export default function Projects() {
   return (
-    <main className="flex flex-col gap-4 md:py-4">
-      <span className="mx-4 text-2xl font-bold">Projects</span>
+    <main className="flex flex-col gap-2 md:py-4">
+      <h2 className="mx-4 text-xl font-bold">Projects</h2>
       <div className="flex flex-col gap-4 md:gap-1">
         {config.projects.map((project, idx) => {
           return (
