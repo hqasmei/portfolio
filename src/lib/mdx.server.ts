@@ -3,9 +3,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { bundleMDX } from 'mdx-bundler';
-import rehypePrettyCode from 'rehype-pretty-code';
+import rehypePrismPlus from 'rehype-prism-plus';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+
+import { postProcess, preProcess } from './rehype-pre-raw';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -66,7 +68,17 @@ export const getPostBySlug = async (slug: string) => {
       files,
       mdxOptions(options) {
         options.remarkPlugins = [remarkFrontmatter, remarkMdxFrontmatter];
-        options.rehypePlugins = [rehypePrettyCode];
+        options.rehypePlugins = [
+          preProcess,
+          [
+            rehypePrismPlus,
+            {
+              ignoreMissing: true,
+              showLineNumbers: true,
+            },
+          ],
+          postProcess,
+        ];
         return options;
       },
     });

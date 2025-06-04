@@ -4,6 +4,7 @@ import { Link, useLoaderData } from 'react-router';
 
 import { getMDXComponent } from 'mdx-bundler/client';
 
+import { CopyButton } from '@/components/copy-button';
 import { getPostBySlug } from '@/lib/mdx.server';
 import { formatDate, formatReadingTime } from '@/utils';
 
@@ -55,8 +56,24 @@ export function meta({ data }: { data: any }) {
   ];
 }
 
+function CodeBlock({ children, ...props }: { children: any; title: string }) {
+  const rawCode = children?.props?.raw || '';
+
+  return (
+    <>
+      <div className="text-muted-foreground flex flex-row items-center justify-between rounded-t-md border-x-[1px] border-t-[1px] border-neutral-300 px-4 py-2 text-xs dark:border-neutral-600">
+        <div>{props.title}</div>
+        <CopyButton text={rawCode} />
+      </div>
+      {children}
+    </>
+  );
+}
+
 export default function Post() {
   const { code, frontmatter } = useLoaderData<typeof loader>();
+
+  // Create the component without passing components yet
   const Component = React.useMemo(() => getMDXComponent(code), [code]);
 
   // Estimate reading time from the code content
@@ -103,7 +120,7 @@ export default function Post() {
       </section>
 
       <article className="prose dark:prose-invert max-w-none">
-        <Component />
+        <Component components={{ CodeBlock }} />
       </article>
     </main>
   );
