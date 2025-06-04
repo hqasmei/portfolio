@@ -14,9 +14,11 @@ In this guide, I'll walk you through my preferred React Router v7 setup using **
 
 Let's start with the official template:
 
+<CodeBlock title="bash">
 ```bash
 npx create-react-router@latest my-react-router-app
 ```
+</CodeBlock>
 
 When prompted, I typically choose:
 
@@ -36,11 +38,13 @@ By default, React Router v7 places the `app` folder at your project root. While 
 
 Here's how to reorganize your project:
 
+<CodeBlock title="bash">
 ```bash
 cd my-react-router-app
 mkdir src
 mv app src/
 ```
+</CodeBlock>
 
 ## Updating Configuration Files
 
@@ -50,7 +54,8 @@ After moving the `app` folder, you need to update several configuration files to
 
 Tell React Router where to find your app directory:
 
-```tsx
+<CodeBlock title="react-router.config.ts">
+```tsx {7}
 import type { Config } from '@react-router/dev/config';
 
 export default {
@@ -60,12 +65,14 @@ export default {
   appDirectory: './src/app',
 } satisfies Config;
 ```
+</CodeBlock>
 
 ### 2. Update tsconfig.json
 
 Update the TypeScript configuration to include the new `src` structure:
 
-```json
+<CodeBlock title="tsconfig.json">
+```json {3,19}
 {
   "include": [
     "src",
@@ -95,6 +102,7 @@ Update the TypeScript configuration to include the new `src` structure:
   }
 }
 ```
+</CodeBlock>
 
 The key changes here are:
 
@@ -105,7 +113,8 @@ The key changes here are:
 
 The default development server runs on `localhost:5173`, but I prefer the more common `localhost:3000`. Here's how to change it in your `vite.config.ts`:
 
-```tsx
+<CodeBlock title="vite.config.ts">
+```tsx {8-10}
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
@@ -118,6 +127,7 @@ export default defineConfig({
   },
 });
 ```
+</CodeBlock>
 
 **Why port 3000?** It's the conventional port for React development servers, and if you're coming from Create React App or Next.js, it feels more familiar.
 
@@ -125,22 +135,20 @@ export default defineConfig({
 
 After these changes, your project structure will look like this:
 
-```
+<CodeBlock title="Project Structure">
+```txt
 my-react-router-app/
 ├── src/
-│   ├── app/
-│   │   ├── routes/
-│   │   ├── root.tsx
-│   │   └── ...
-│   ├── components/     (you'll add these)
-│   ├── lib/           (you'll add these)
-│   ├── utils/         (you'll add these)
-│   └── hooks/         (you'll add these)
+│   └── app/
+│       ├── routes/
+│       ├── root.tsx
+│       └── ... 
 ├── react-router.config.ts
 ├── vite.config.ts
 ├── tsconfig.json
 └── package.json
 ```
+</CodeBlock>
 
 ## Common Folders I Add Later
 
@@ -159,11 +167,13 @@ I've created a custom template with these configurations pre-applied, so I don't
 
 To use it:
 
+<CodeBlock title="bash">
 ```tsx
 git clone https://github.com/yourusername/react-router-v7-template.git my-new-project
 cd my-new-project
 npm install
 ```
+</CodeBlock>
 
 You can also fork the official React Router starter and apply these changes yourself.
 

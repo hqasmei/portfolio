@@ -8,7 +8,7 @@ tags: ['react router v7', 'open graph', 'seo', 'meta tags']
 
 When you share a link on Twitter, LinkedIn, or in a Slack message, you often see a preview with an image, title, and description. That preview image is called an **Open Graph image**.
 
-In this guide, I'll show you how to add these link previews to your React Router v7 app – it's actually much simpler than you might think.
+In this guide, I'll show you how to add these link previews to your React Router v7 app.
 
 ## What Are Open Graph Images?
 
@@ -35,12 +35,14 @@ First, you need to create the actual image. Here are the specs:
 
 Place your image in the `public` folder of your React Router v7 project:
 
-```
+<CodeBlock title="Public Folder Structure">
+```txt
 public/
 ├── og-images/
 │   └── og-image.png
 └── ...
 ```
+</CodeBlock>
 
 I created an `og-images` folder since you might add more images for different pages later. But up to you to name it whatever you want.
 
@@ -48,6 +50,7 @@ I created an `og-images` folder since you might add more images for different pa
 
 Go to the route where you want the Open Graph image to appear and update the `meta` function:
 
+<CodeBlock title="src/routes/your-route.tsx">
 ```tsx
 export function meta({}: Route.MetaArgs) {
   return [
@@ -73,6 +76,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 ```
+</CodeBlock>
 
 **Important:** Replace `https://yourdomain.com` with your actual deployed website URL. The browser needs the full URL to access the image once your site is live.
 

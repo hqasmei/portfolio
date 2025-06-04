@@ -24,18 +24,21 @@ Before we start, make sure you have:
 2. **AWS CLI installed and configured** - Follow [SST's AWS setup guide](https://sst.dev/docs/aws-accounts/)
 3. **React Router v7 project** - I'll use my [starter template](https://github.com/hqasmei/react-router-v7-starter)
 
-> 💡 Using my template? Clone it with: git clone https://github.com/hqasmei/react-router-v7-starter.git my-project
+> Using my template? Clone it with: git clone https://github.com/hqasmei/react-router-v7-starter.git my-project
 
 ### Step 1: Initialize SST
 
 In your React Router v7 project directory, run:
 
+<CodeBlock title="bash">
 ```bash
 npx sst@latest init
 ```
+</CodeBlock>
 
 SST will detect your React Router project and prompt you:
 
+<CodeBlock title="bash">
 ```bash
 > React Router detected. This will...
   - create an sst.config.ts
@@ -43,6 +46,7 @@ SST will detect your React Router project and prompt you:
   - add sst to package.json
 ? Continue:
 ```
+</CodeBlock>
 
 **Select "Yes"** to automatically configure everything.
 
@@ -56,9 +60,11 @@ After initialization, you'll see these new files:
 
 Now let's deploy your app to AWS:
 
+<CodeBlock title="bash">
 ```bash
 npx sst deploy
 ```
+</CodeBlock>
 
 **What happens during deployment:**
 
@@ -70,10 +76,12 @@ This first deployment takes 3-5 minutes since AWS is creating all the infrastruc
 
 Once complete, you'll see output like:
 
+<CodeBlock title="bash">
 ```bash
 ✅  Complete
    ReactRouter: https://d1234567890.cloudfront.net
 ```
+</CodeBlock>
 
 Your app is now live on AWS!
 
