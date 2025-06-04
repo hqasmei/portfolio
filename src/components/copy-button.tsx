@@ -18,7 +18,7 @@ export function CopyButton({ text }: { text: any }) {
 
   return (
     <button
-      className="rounded p-2 duration-200 hover:bg-neutral-800"
+      className="rounded p-2 duration-200 hover:bg-neutral-200 dark:hover:bg-neutral-800"
       disabled={isCopied}
       onClick={copy}
     >
