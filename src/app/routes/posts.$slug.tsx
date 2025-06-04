@@ -80,7 +80,7 @@ export default function Post() {
   const readingTime = React.useMemo(() => formatReadingTime(code), [code]);
 
   return (
-    <main className="flex flex-col gap-8 md:py-4">
+    <main className="flex flex-col gap-8 p-4">
       <Link
         to="/posts"
         className="group text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
