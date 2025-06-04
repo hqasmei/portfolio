@@ -7,7 +7,10 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write . && eslint --fix .",
+    "format:check": "prettier --check . && eslint ."
   },
   "dependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
