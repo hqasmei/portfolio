@@ -72,7 +72,7 @@ export default function Home() {
 
       <div className="flex flex-col gap-4 md:gap-1">
         <span className="mx-4 font-medium">Latest Posts</span>
-        {posts.map((post) => {
+        {posts.slice(0, 3).map((post) => {
           return (
             <Link key={post.slug} to={`/posts/${post.slug}`}>
               <PostCard post={post} />
