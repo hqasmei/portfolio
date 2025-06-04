@@ -1,0 +1,133 @@
+---
+title: 'Promise Chaining in React'
+date: '2024-11-10'
+author: 'Hosna Qasmei'
+summary: 'Learn how to evolve from basic async/await to efficient Promise chaining in React applications.'
+tag: ['technical']
+---
+
+As I've grown as a React developer, handling asynchronous operations effectively has become increasingly important. Let me share a pattern that transformed how I write async code – Promise chaining.
+
+## Starting with async/await
+
+Like many developers, I initially gravitated towards `async/await` for its simplicity and readability:
+
+<CodeBlock title="">
+```tsx showLineNumbers
+// Our basic async operation
+const myPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const user = { id: 1, name: 'John' };
+    user ? resolve(user) : reject('No user found');
+  }, 2000); // Simulating API delay
+});
+
+// Traditional async/await approach
+const getUserData = async () => {
+try {
+const response = await myPromise;
+return response;
+} catch (error) {
+console.error('Error getting data');
+return null;
+}
+};
+
+```
+</CodeBlock>
+
+## The Limitations I Discovered
+
+While `async/await` seemed perfect at first, I started noticing some drawbacks:
+
+1. Error handling became repetitive across different functions
+2. Adding cleanup logic meant more boilerplate code
+3. Sequential operations led to deeper nesting
+4. Testing became more complex as operations grew
+
+## Discovering Promise Chains
+
+This led me to Promise chaining, which offers a more elegant solution:
+
+<CodeBlock title="">
+```tsx showLineNumbers
+const getUserData = () => {
+  return myPromise
+    .then((user) => user)
+    .catch((error) => {
+      console.error('Error:', error);
+      return null;
+    })
+    .finally(() => {
+      console.log('Promise completed');
+    });
+};
+```
+</CodeBlock>
+
+### Why This Approach Shines:
+
+- **Cleaner Error Handling**: `.catch()` handles all errors in the chain
+- **Built-in Cleanup**: `.finally()` runs regardless of success or failure
+- **Easy to Extend**: Adding new operations is as simple as adding another `.then()`
+- **Better Testing**: Each step in the chain can be tested independently
+
+## Using in React Components
+
+Here's how this pattern integrates beautifully with React:
+
+<CodeBlock title="">
+```tsx showLineNumbers
+function UserProfile() {
+  const [data, setData] = useState(null);
+
+useEffect(() => {
+getUserData().then(setData).catch(console.error);
+}, []);
+
+if (!data) return <div>Loading...</div>;
+return <div>{data.name}</div>;
+}
+
+```
+</CodeBlock>
+
+## Advanced Usage: Multiple Operations
+
+When you need to handle multiple sequential operations, Promise chaining really shows its value:
+
+<CodeBlock title="">
+```tsx showLineNumbers
+const getFullUserData = () => {
+  return getUserData()
+    .then((user) => getUserPosts(user.id))
+    .then((posts) => getUserComments(posts))
+    .then((comments) => {
+      return {
+        comments,
+        timestamp: new Date(),
+      };
+    })
+    .catch((error) => {
+      console.error('Error in chain:', error);
+      return null;
+    });
+};
+```
+</CodeBlock>
+
+## Best Practices
+
+When implementing Promise chains in React, keep these tips in mind:
+
+1. Always return values from `.then()` blocks to pass them down the chain
+2. Use a single `.catch()` at the end to handle all potential errors
+3. Take advantage of `.finally()` for cleanup operations
+4. Keep each transformation step focused and simple
+5. Consider breaking very long chains into smaller, more manageable functions
+
+## Conclusion
+
+Promise chaining has become an invaluable tool in my React development workflow. While `async/await` still has its place, the clarity and flexibility of Promise chains make them perfect for handling complex asynchronous operations.
+
+Remember, the goal is to write code that's not just functional, but also maintainable and easy to understand. Promise chaining helps achieve both these objectives while providing robust error handling and cleanup capabilities.

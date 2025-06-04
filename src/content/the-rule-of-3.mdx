@@ -1,0 +1,161 @@
+---
+title: 'The Rule of 3'
+date: '2024-09-03'
+author: 'Hosna Qasmei'
+summary: 'How Reusability, Reliability, and Readability shape better code.'
+tag: ['technical']
+---
+
+Every programmer strives to write better code. The Rule of 3 provides a simple framework to achieve this: Reusability, Reliability, and Readability. Let's explore how these principles can transform your code from good to great.
+
+## Reusability: Build Once, Use Everywhere
+
+Reusable code is like a good tool - it can be used for many different jobs. Here's how to make your code more reusable:
+
+<CodeBlock title="">
+```tsx showLineNumbers
+// Instead of this (Not Reusable)
+function UserCard() {
+  const [isLoading, setIsLoading] = useState(true);
+
+return (
+<div className="card">
+{isLoading ? <div>Loading...</div> : <div>User Info</div>}
+</div>
+);
+}
+
+// Do this (Reusable)
+function Card({ isLoading, children }) {
+return (
+<div className="card">{isLoading ? <div>Loading...</div> : children}</div>
+);
+}
+
+// Now you can use it anywhere
+
+<Card isLoading={isLoading}>
+  <UserInfo />
+</Card>;
+```
+</CodeBlock>
+
+## Reliability: Handle the Unexpected
+
+Reliable code works even when things go wrong. Think of it as defensive programming:
+
+```jsx
+// Instead of this (Unreliable)
+function fetchUserData() {
+  return fetch('/api/user')
+    .then(res => res.json());
+}
+
+// Do this (Reliable)
+function fetchUserData() {
+  return fetch('/api/user')
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to fetch');
+      return res.json();
+    })
+    .catch(error => {
+      console.error('Error fetching user:', error);
+      return null;
+    });
+}
+
+```
+
+## Readability: Write for Humans
+
+Code is read more often than it's written. Make it easy to understand:
+
+```jsx
+// Instead of this (Hard to Read)
+const h = (d) => d.reduce((t, i) => t + i.p * i.q, 0);
+
+// Do this (Easy to Read)
+const calculateTotal = (items) => {
+  return items.reduce((total, item) => {
+    const itemTotal = item.price * item.quantity;
+    return total + itemTotal;
+  }, 0);
+};
+```
+
+## Putting It All Together
+
+Here's an example that combines all three principles:
+
+```jsx
+// A hook that's reusable, reliable, and readable
+function useAPI(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Readable: Clear function names and structure
+    const fetchData = async () => {
+      try {
+        // Reliable: Error handling
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  // Reusable: Returns consistent data structure
+  return { data, loading, error };
+}
+
+// Using our hook
+function UserProfile({ userId }) {
+  const { data, loading, error } = useAPI(`/api/users/${userId}`);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      <h2>{data.name}</h2>
+      <p>{data.email}</p>
+    </div>
+  );
+}
+```
+
+## Why It Matters
+
+Following the Rule of 3 helps you:
+
+- Save time by reusing code
+- Reduce bugs with reliable error handling
+- Make maintenance easier with readable code
+
+## Quick Tips
+
+1. **For Reusability**
+   - Break down complex components
+   - Use props for customization
+   - Create shared utilities
+2. **For Reliability**
+   - Always handle errors
+   - Validate inputs
+   - Test edge cases
+3. **For Readability**
+   - Use clear names
+   - Keep functions small
+   - Add comments when needed
+
+Remember: Good code isn't just about making things work – it's about making things work well for both users and developers.

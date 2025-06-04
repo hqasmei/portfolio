@@ -1,0 +1,155 @@
+---
+title: 'Stop Writing Swiss Army Knife Functions'
+date: '2024-12-16'
+author: 'Hosna Qasmei'
+summary: 'Learn how to transform complex conditional logic into cleaner, maintainable functions with a simple two-function approach.'
+tag: ['technical']
+---
+
+We've all been there - writing that one function that does everything. Like a Swiss Army knife, it seems convenient at first, but quickly becomes unwieldy. Let me show you why breaking down complex functions into smaller, focused ones leads to better code.
+
+## The Swiss Army Knife Approach
+
+Here's a common scenario - a functions that checks multiple things:
+
+<CodeBlock title="MessyLogic.ts">
+```tsx showLineNumbers
+interface User {
+  age: number;
+  purchaseAmount: number;
+  lastPurchaseDate: Date;
+  isSubscribed: boolean;
+}
+
+// One function doing too many checks
+function canUserGetDiscount(user: User): boolean {
+  if (
+    user.age >= 18 && 
+    user.purchaseAmount > 100 &&
+    user.isSubscribed &&
+    (new Date().getTime() - user.lastPurchaseDate.getTime()) / (1000 * 3600 * 24) <= 30
+  ) {
+    return true;
+  }
+  return false;
+}
+```
+</CodeBlock>
+
+This function works, but it's:
+- Hard to read at a glance
+- Difficult to test
+- Not clear what we're actually checking
+
+## The Clean Way
+
+Let's split this into two logical groups:
+
+<CodeBlock title="CleanLogic.ts">
+```tsx showLineNumbers
+interface User {
+  age: number;
+  purchaseAmount: number;
+  lastPurchaseDate: Date;
+  isSubscribed: boolean;
+}
+
+// Check basic user eligibility
+function isEligibleUser(user: User): boolean {
+  return user.age >= 18 && user.isSubscribed;
+}
+
+// Check purchase requirements
+function meetsDiscountRequirements(user: User): boolean {
+  const daysSinceLastPurchase = 
+    (new Date().getTime() - user.lastPurchaseDate.getTime()) / (1000 * 3600 * 24);
+    
+  return user.purchaseAmount > 100 && daysSinceLastPurchase <= 30;
+}
+
+// Main function becomes very clear
+function canUserGetDiscount(user: User): boolean {
+  return isEligibleUser(user) && meetsDiscountRequirements(user);
+}
+```
+</CodeBlock>
+
+## Another Simple Example
+
+Here's another common scenario - validating a payment:
+
+<CodeBlock title="PaymentLogic.ts">
+```tsx showLineNumbers
+// Messy approach
+function canProcessPayment(payment: {
+  amount: number;
+  currency: string;
+  cardExpiry: Date;
+  isVerified: boolean;
+}): boolean {
+  if (
+    payment.amount > 0 && 
+    payment.amount <= 1000 &&
+    payment.currency === 'USD' &&
+    payment.cardExpiry > new Date() &&
+    payment.isVerified
+  ) {
+    return true;
+  }
+  return false;
+}
+
+// Clean approach
+function isValidAmount(payment: { amount: number; currency: string }): boolean {
+  return payment.amount > 0 && 
+         payment.amount <= 1000 && 
+         payment.currency === 'USD';
+}
+
+function isValidCard(payment: { cardExpiry: Date; isVerified: boolean }): boolean {
+  return payment.cardExpiry > new Date() && payment.isVerified;
+}
+
+function canProcessPayment(payment: {
+  amount: number;
+  currency: string;
+  cardExpiry: Date;
+  isVerified: boolean;
+}): boolean {
+  return isValidAmount(payment) && isValidCard(payment);
+}
+```
+</CodeBlock>
+
+## Why This Helps
+
+1. **Easier to Read**
+<CodeBlock title="">
+   ```tsx showLineNumbers
+   // The logic is immediately clear
+   if (isEligibleUser(user) && meetsDiscountRequirements(user)) {
+     applyDiscount();
+   }
+   ```
+</CodeBlock>
+
+2. **Easier to Test**
+<CodeBlock title="">
+   ```tsx showLineNumbers
+   test('user eligibility', () => {
+     const user = {
+       age: 16,
+       isSubscribed: true,
+       purchaseAmount: 200,
+       lastPurchaseDate: new Date()
+     };
+     expect(isEligibleUser(user)).toBe(false); // Too young
+   });
+   ```
+</CodeBlock>
+
+## Conclusion
+
+You don't need to break your functions down into tiny pieces. Just splitting complex logic into two focused functions can make your code much clearer and easier to maintain.
+
+Remember: If you're checking more than 2-3 conditions in a single if-statement, consider breaking it up into logical groups.

@@ -1,0 +1,119 @@
+---
+title: "10 Lessons I've Learned from Doing PRs"
+date: '2024-11-22'
+author: 'Hosna Qasmei'
+summary: 'Personal lessons and insights from creating and reviewing Pull Requests.'
+tag: ['technical']
+---
+
+> Disclaimer: These insights come from my personal experience with my current team and codebase. Every team, project, and company has different practices and requirements. Feel free to use these as inspiration to develop practices that work best for your situation.
+
+## 1. Using Draft PRs
+
+One of my favorite discoveries was the draft PR feature. When your work isn't ready for review:
+
+1. Submit your PR normally
+2. Use the "Convert to draft" button
+3. This signals to your team that it's still a work in progress
+
+[Note: Image showing the "Convert to draft" button would go here]
+
+## 2. Local Testing Saves Time
+
+I learned this the hard way - running tests before pushing saves everyone time:
+
+<CodeBlock title="terminal">
+```bash
+# Basic checks I run before committing
+npm run test
+npm run lint
+npm run build
+
+```
+</CodeBlock>
+
+## 3. Self-Review Practice
+
+Before requesting reviews, I always check:
+
+- Remove any console.log statements used for debugging
+- Check that tests pass
+- Look for obvious typos
+- Review my own changes in GitHub's interface
+
+## 4. Writing Clear Commit Messages
+
+I try to make my commit messages descriptive:
+
+<CodeBlock title="terminal">
+```bash
+# What I used to do
+git commit -m "updates"
+
+# What I do now
+git commit -m "fix: Update user validation logic"
+
+```
+</CodeBlock>
+
+## 5. Including PR Description Details
+
+I've learned to always include:
+
+```markdown
+## Changes Made
+
+[What I changed and why]
+
+## Ticket
+
+JIRA-123 or relevant ticket
+
+## Notes
+
+Any important details reviewers should know
+```
+
+## 6. Handling Fast Follows
+
+Sometimes issues need fixing after a PR is merged. My approach:
+
+1. Create a new branch for the fix
+2. Reference the original PR
+3. Keep it focused on just the fix needed
+
+## 7. Managing Merge Conflicts
+
+When facing too many merge conflicts:
+
+1. Create a fresh branch
+2. Copy over changes systematically
+3. This can be cleaner than resolving complex conflicts
+
+## 8. Team Communication
+
+I've learned to:
+
+- Check if anyone else is working on the same files
+- Give heads up in team chat if making big changes
+- Be open to waiting or adjusting timing based on team needs
+
+## 9. Reviewing Your Own PR
+
+Before asking others to review:
+
+- Take time to review your own changes first
+- Look at the PR from a reviewer's perspective
+- Often catch obvious mistakes this way
+
+## 10. Being Ready for Follow-ups
+
+Things I keep in mind:
+
+- Issues might appear after merging
+- Be prepared to make quick fixes
+- Keep track of related changes that might need attention
+
+## Closing Thoughts
+
+PRs are about more than just code - they're about working well with your team. These lessons have helped me, but the best practices are the ones that work for you and your team.
