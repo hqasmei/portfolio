@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   isRouteErrorResponse,
@@ -8,8 +8,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
 } from 'react-router';
+
+import ReactGA from 'react-ga4';
 
 import type { Route } from './+types/root';
 
@@ -17,6 +20,16 @@ import '@/styles/app.css';
 
 import config from '@/config';
 import { ThemeProvider, useTheme } from '@/contexts/theme';
+
+// Loader function to get environment variables
+export const loader = () => {
+  // Don't track in development at all
+  const isDev = process.env.NODE_ENV === 'development';
+
+  return {
+    gaTrackingId: isDev ? null : process.env.GA_TRACKING_ID,
+  };
+};
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -38,6 +51,24 @@ export const links: Route.LinksFunction = () => [
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
+  const { gaTrackingId } = useLoaderData<typeof loader>();
+
+  // Initialize GA once
+  useEffect(() => {
+    if (gaTrackingId) {
+      ReactGA.initialize(gaTrackingId);
+    }
+  }, [gaTrackingId]);
+
+  // Track page views on route changes
+  useEffect(() => {
+    if (gaTrackingId) {
+      ReactGA.send({
+        hitType: 'pageview',
+        page: location.pathname + location.search,
+      });
+    }
+  }, [location, gaTrackingId]);
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');

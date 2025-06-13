@@ -12,9 +12,13 @@ export default $config({
   async run() {
     // Create secrets for each environment variable
     const hostedZoneSecret = new sst.Secret('HostedZoneId');
+    const gaTrackingIdSecret = new sst.Secret('GATrackingId');
 
     new sst.aws.React('MyWeb', {
-      link: [hostedZoneSecret],
+      link: [hostedZoneSecret, gaTrackingIdSecret],
+      environment: {
+        GA_TRACKING_ID: gaTrackingIdSecret.value, 
+      },
       domain: {
         name: 'hosnaqasmei.com',
         aliases: ['www.hosnaqasmei.com'],

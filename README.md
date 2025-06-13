@@ -70,6 +70,13 @@ npx sst deploy --stage prod   # Deploy to production
 npx sst remove --stage prod   # Remove from production
 ```
 
+To set and remove secrets follow the below commands. Need to make sure you have the sst cli installed.
+
+```bash
+sst secret set NAME_OF_SECRET VALUE --stage prod
+sst secret remove NAME_OF_SECRET --stage prod
+```
+
 ## Customization
 
 ### Adding Blog Posts
