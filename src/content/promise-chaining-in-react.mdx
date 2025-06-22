@@ -12,7 +12,7 @@ As I've grown as a React developer, handling asynchronous operations effectively
 
 Like many developers, I initially gravitated towards `async/await` for its simplicity and readability:
 
-<CodeBlock title="">
+<CodeBlock title="Typescript">
 ```tsx showLineNumbers
 // Our basic async operation
 const myPromise = new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ While `async/await` seemed perfect at first, I started noticing some drawbacks:
 
 This led me to Promise chaining, which offers a more elegant solution:
 
-<CodeBlock title="">
+<CodeBlock title="Typescript">
 ```tsx showLineNumbers
 const getUserData = () => {
   return myPromise
@@ -76,7 +76,7 @@ const getUserData = () => {
 
 Here's how this pattern integrates beautifully with React:
 
-<CodeBlock title="">
+<CodeBlock title="Typescript">
 ```tsx showLineNumbers
 function UserProfile() {
   const [data, setData] = useState(null);
@@ -96,7 +96,7 @@ return <div>{data.name}</div>;
 
 When you need to handle multiple sequential operations, Promise chaining really shows its value:
 
-<CodeBlock title="">
+<CodeBlock title="Typescript">
 ```tsx showLineNumbers
 const getFullUserData = () => {
   return getUserData()

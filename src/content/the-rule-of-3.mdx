@@ -12,7 +12,7 @@ Every programmer strives to write better code. The Rule of 3 provides a simple f
 
 Reusable code is like a good tool - it can be used for many different jobs. Here's how to make your code more reusable:
 
-<CodeBlock title="">
+<CodeBlock title="Typescript">
 ```tsx showLineNumbers
 // Instead of this (Not Reusable)
 function UserCard() {
@@ -44,7 +44,8 @@ return (
 
 Reliable code works even when things go wrong. Think of it as defensive programming:
 
-```jsx
+<CodeBlock title="Typescript">
+```tsx showLineNumbers
 // Instead of this (Unreliable)
 function fetchUserData() {
   return fetch('/api/user')
@@ -65,12 +66,14 @@ function fetchUserData() {
 }
 
 ```
+</CodeBlock>
 
 ## Readability: Write for Humans
 
 Code is read more often than it's written. Make it easy to understand:
 
-```jsx
+<CodeBlock title="Typescript">
+```tsx showLineNumbers
 // Instead of this (Hard to Read)
 const h = (d) => d.reduce((t, i) => t + i.p * i.q, 0);
 
@@ -82,12 +85,14 @@ const calculateTotal = (items) => {
   }, 0);
 };
 ```
+</CodeBlock>
 
 ## Putting It All Together
 
 Here's an example that combines all three principles:
 
-```jsx
+<CodeBlock title="Typescript">
+```tsx showLineNumbers
 // A hook that's reusable, reliable, and readable
 function useAPI(url) {
   const [data, setData] = useState(null);
@@ -134,6 +139,7 @@ function UserProfile({ userId }) {
   );
 }
 ```
+</CodeBlock>
 
 ## Why It Matters
 
