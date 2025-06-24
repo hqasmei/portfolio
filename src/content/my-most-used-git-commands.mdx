@@ -57,3 +57,14 @@ git push origin master
 rm -rf node_modules
 ```
 </CodeBlock>
+
+### Remove existing .DS_Store files
+<CodeBlock title="Terminal">
+```bash 
+# Remove .DS_Store files from the repository
+git rm --cached .DS_Store
+
+# Remove .DS_Store files recursively from all subdirectories
+git rm -r --cached .DS_Store
+```
+</CodeBlock>
