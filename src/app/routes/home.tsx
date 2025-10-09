@@ -10,7 +10,7 @@ import type { Route } from './+types/home';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: `${config.name} | ${config.title}` },
+    { title: `${config.name}` },
     { name: 'description', content: `${config.description}` },
   ];
 }
