@@ -106,6 +106,10 @@ and experience on web & mobile development.`,
       link: 'https://linkedin.com/in/hosnaqasmei',
     },
     {
+      platform: 'Twitch',
+      link: 'https://www.twitch.tv/hqasmei',
+    },
+    {
       platform: 'Email',
       link: 'mailto:hello@hosnaqasmei.com',
     },

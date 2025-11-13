@@ -5,6 +5,18 @@
 
 declare module "sst" {
   export interface Resource {
+    "GATrackingId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "HostedZoneId": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "MyWeb": {
+      "type": "sst.aws.React"
+      "url": string
+    }
   }
 }
 /// <reference path="sst-env.d.ts" />

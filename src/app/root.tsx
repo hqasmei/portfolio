@@ -12,7 +12,7 @@ import {
   useLocation,
 } from 'react-router';
 
-import { Github, Linkedin, Mail, Twitter, Youtube } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter, Youtube, Twitch } from 'lucide-react';
 import ReactGA from 'react-ga4';
 
 import type { Route } from './+types/root';
@@ -21,7 +21,7 @@ import '@/styles/app.css';
 
 import config from '@/config';
 import { ThemeProvider, useTheme } from '@/contexts/theme';
-
+ 
 // Loader function to get environment variables
 export const loader = () => {
   // Don't track in development at all
@@ -40,6 +40,7 @@ const getSocialIcon = (platform: string) => {
     GitHub: <Github {...iconProps} />,
     X: <Twitter {...iconProps} />,
     LinkedIn: <Linkedin {...iconProps} />,
+    Twitch: <Twitch {...iconProps} />,
     Email: <Mail {...iconProps} />,
   };
   return icons[platform] || null;
