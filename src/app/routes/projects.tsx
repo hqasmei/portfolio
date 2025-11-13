@@ -3,6 +3,18 @@ import { Link } from 'react-router';
 import ProjectCard from '@/components/project-card';
 import config from '@/config';
 
+import type { Route } from './+types/projects';
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: `Projects | ${config.name}` },
+    {
+      name: 'description',
+      content: `Here is my portfolio of projects I have worked on.`,
+    },
+  ];
+}
+
 export default function Projects() {
   return (
     <main className="flex flex-col gap-2 md:py-4">
