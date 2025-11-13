@@ -1,11 +1,15 @@
 import { Link, useLoaderData } from 'react-router';
 
 import PostCard from '@/components/post-card';
+import config from '@/config';
 
 export function meta() {
   return [
-    { title: 'Posts | Hosna Qasmei' },
-    { name: 'description', content: 'Here are my posts.' },
+    { title: `Posts | ${config.name}` },
+    {
+      name: 'description',
+      content: 'Here are my posts about what I have learned.',
+    },
   ];
 }
 
