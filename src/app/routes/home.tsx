@@ -38,7 +38,39 @@ export default function Home() {
     <div className="mt-4 flex flex-col gap-10">
       <div className="mx-4 flex flex-col gap-2">
         <span className="font-medium">About me</span>
-        <span>{config.description}</span>
+        <div className="flex flex-col gap-3 text-neutral-300">
+          <p>
+            Hi, I'm Hosna. I'm a{' '}
+            <strong className="text-foreground">software engineer</strong> based
+            in{' '}
+            <strong className="text-foreground">Los Angeles, California</strong>
+            .
+          </p>
+
+          <p>
+            I've spent the past 5 years building products at startups including{' '}
+            <strong className="text-foreground">DeepCast</strong> and{' '}
+            <strong className="text-foreground">Proterra Ag</strong>.
+          </p>
+
+          <p>
+            I currently run{' '}
+            <strong className="text-foreground">HQ Solutions LLC</strong> where
+            I work on helping clients bring their MVPs to life.
+          </p>
+          <p>
+            When I'm not coding, I like making{' '}
+            <Link
+              to="https://youtube.com/@hqasmei"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground font-bold underline transition-all duration-200 hover:text-neutral-300"
+            >
+              YouTube videos
+            </Link>{' '}
+            and spending time with my cats.
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
