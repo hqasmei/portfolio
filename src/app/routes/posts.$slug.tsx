@@ -5,30 +5,18 @@ import { Link, useLoaderData } from 'react-router';
 import { getMDXComponent } from 'mdx-bundler/client';
 
 import { CopyButton } from '@/components/copy-button';
+import config from '@/config';
 import { getPostBySlug } from '@/lib/mdx.server';
 import { formatDate, formatReadingTime } from '@/utils';
 
-export async function loader({ params }: { params: { slug: string } }) {
-  const note = await getPostBySlug(params.slug);
-  if (!note) {
-    throw new Response('Note not found', { status: 404 });
-  }
-  if (!note.code) {
-    throw new Response('Note content is missing', { status: 500 });
-  }
+import type { Route } from './+types/posts.$slug';
 
-  return {
-    code: note.code,
-    frontmatter: note.frontmatter,
-  };
-}
-
-export function meta({ data }: { data: any }) {
-  const { frontmatter } = data;
+export function meta({ data }: Route.MetaArgs) {
+  const { frontmatter } = data as any;
   const tags = frontmatter?.tags?.join(', ') || '';
 
   return [
-    { title: `${frontmatter?.title} | Hosna Qasmei` },
+    { title: `${frontmatter?.title} | ${config.name}` },
     {
       name: 'description',
       content: frontmatter?.summary || frontmatter?.description,
@@ -54,6 +42,21 @@ export function meta({ data }: { data: any }) {
       content: frontmatter?.summary || frontmatter?.description,
     },
   ];
+}
+
+export async function loader({ params }: { params: { slug: string } }) {
+  const note = await getPostBySlug(params.slug);
+  if (!note) {
+    throw new Response('Note not found', { status: 404 });
+  }
+  if (!note.code) {
+    throw new Response('Note content is missing', { status: 500 });
+  }
+
+  return {
+    code: note.code,
+    frontmatter: note.frontmatter,
+  };
 }
 
 function CodeBlock({ children, ...props }: { children: any; title: string }) {
