@@ -22,7 +22,7 @@ export default function Projects() {
       <div className="flex flex-col gap-4 md:gap-1">
         {config.projects.map((project, idx) => {
           return (
-            <Link key={idx} to={`/projects/${project.slug}`} target="_blank">
+            <Link key={idx} to={project.link} target="_blank">
               <ProjectCard project={project} />
             </Link>
           );
