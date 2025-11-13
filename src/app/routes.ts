@@ -5,4 +5,5 @@ export default [
   route('/posts', 'routes/posts.tsx'),
   route('/posts/:slug', 'routes/posts.$slug.tsx'),
   route('/projects', 'routes/projects.tsx'),
+  route('/speaking', 'routes/speaking.tsx'),
 ] satisfies RouteConfig;

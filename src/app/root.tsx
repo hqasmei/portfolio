@@ -12,6 +12,7 @@ import {
   useLocation,
 } from 'react-router';
 
+import { Github, Linkedin, Mail, Twitter, Youtube } from 'lucide-react';
 import ReactGA from 'react-ga4';
 
 import type { Route } from './+types/root';
@@ -29,6 +30,19 @@ export const loader = () => {
   return {
     gaTrackingId: isDev ? null : process.env.GA_TRACKING_ID,
   };
+};
+
+// Helper function to get social icon component
+const getSocialIcon = (platform: string) => {
+  const iconProps = { size: 18 };
+  const icons: Record<string, React.ReactElement> = {
+    YouTube: <Youtube {...iconProps} />,
+    GitHub: <Github {...iconProps} />,
+    X: <Twitter {...iconProps} />,
+    LinkedIn: <Linkedin {...iconProps} />,
+    Email: <Mail {...iconProps} />,
+  };
+  return icons[platform] || null;
 };
 
 export const links: Route.LinksFunction = () => [
@@ -84,17 +98,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background text-foreground flex min-h-screen flex-col">
         <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 py-8">
-          <header className="mx-4 flex items-center justify-between">
+          <header className="mx-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-0">
             <Link to="/">
-              <div className="group flex items-center gap-4">
+              <div className="group flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
                 <img
                   src={config.headshot}
                   alt={config.name}
                   className="h-12 w-12 rounded-full transition-transform duration-200 group-hover:scale-105 group-active:scale-95"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center sm:items-start">
                   <p className="font-medium">{config.name}</p>
-                  <p className="text-muted-foreground hidden font-light sm:block">
+                  <p className="text-muted-foreground font-light">
                     {config.title}
                   </p>
                 </div>
@@ -112,6 +126,16 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 Projects
               </Link>
               <Link
+                to="/speaking"
+                className={`hover:text-foreground transition-colors ${
+                  location.pathname.startsWith('/speaking')
+                    ? 'text-foreground font-medium'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                Speaking
+              </Link>
+              <Link
                 to="/posts"
                 className={`hover:text-foreground transition-colors ${
                   location.pathname.startsWith('/posts')
@@ -127,7 +151,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 title="Toggle theme"
                 aria-label="Toggle theme"
               >
-                <div className="bg-foreground h-4 w-4 rounded duration-200 group-hover:scale-110 group-active:scale-95" />
+                <div className="bg-foreground hidden h-4 w-4 rounded duration-200 group-hover:scale-110 group-active:scale-95 sm:block" />
               </button>
             </div>
           </header>
@@ -142,21 +166,20 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 </span>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 {config.social.map((social, idx) => (
-                  <React.Fragment key={idx}>
-                    <a
-                      href={social.link}
-                      {...(social.platform !== 'Email' && {
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                      })}
-                      className="hover:text-foreground transition-colors duration-200"
-                    >
-                      <span>{social.platform}</span>
-                    </a>
-                    {idx < config.social.length - 1 && <span>•</span>}
-                  </React.Fragment>
+                  <a
+                    key={idx}
+                    href={social.link}
+                    {...(social.platform !== 'Email' && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    })}
+                    className="hover:text-foreground transition-colors duration-200"
+                    aria-label={social.platform}
+                  >
+                    {getSocialIcon(social.platform)}
+                  </a>
                 ))}
               </div>
             </div>
