@@ -1,0 +1,68 @@
+---
+import { Font } from 'astro:assets';
+
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = `${site.name} | ${site.title}`, description = site.description } =
+  Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-plex-mono" />
+
+    {/* Runs before first paint, so the correct theme is on <html> already. */}
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        var dark = stored
+          ? stored === 'dark'
+          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
+  </head>
+
+  <body class="bg-background text-foreground font-sans min-h-screen leading-relaxed">
+    <div class="mx-auto flex min-h-screen w-full max-w-xl flex-col gap-9 px-6 py-10">
+      <Header />
+      <main class="flex flex-1 flex-col gap-9">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

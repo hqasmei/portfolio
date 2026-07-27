@@ -1,0 +1,23 @@
+---
+import Avatar from './Avatar.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { site } from '../data/site';
+---
+
+<header class="flex items-center justify-between gap-4">
+  <div class="flex items-center gap-3.5">
+    <Avatar />
+    <a
+      href="/"
+      class="group focus-visible:outline-foreground flex flex-col rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
+    >
+      <span
+        class="text-base font-semibold tracking-[-0.015em] underline-offset-4 group-hover:underline"
+        >{site.name}</span
+      >
+      <span class="text-muted-foreground text-[0.82rem]">{site.title}</span>
+    </a>
+  </div>
+
+  <ThemeToggle />
+</header>

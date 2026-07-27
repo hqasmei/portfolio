@@ -1,0 +1,108 @@
+---
+import { getImage, Image } from 'astro:assets';
+
+import headshot from '../assets/headshot.png';
+import { site } from '../data/site';
+
+// WebP for display — smallest over the wire.
+const full = await getImage({
+  src: headshot,
+  width: 640,
+  height: 640,
+  format: 'webp',
+});
+
+// The download serves the untouched original from `public/`. Re-encoding it
+// through sharp came out either larger (867 kB) or visibly lossy, so the
+// original 640x640 PNG is the honest thing to hand people.
+const downloadHref = '/hosna-qasmei.png';
+const filename = `${site.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+---
+
+<button
+  type="button"
+  id="avatar-trigger"
+  aria-label={`View photo of ${site.name}`}
+  class="focus-visible:outline-foreground shrink-0 cursor-pointer rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4"
+>
+  <Image
+    src={headshot}
+    alt=""
+    width={88}
+    height={88}
+    loading="eager"
+    class="h-11 w-11 rounded-lg transition-transform duration-200 ease-out hover:scale-105 active:scale-95"
+  />
+</button>
+
+<dialog
+  id="avatar-dialog"
+  aria-label={`Photo of ${site.name}`}
+  class="bg-background text-foreground border-border open:flex m-auto max-h-[90dvh] max-w-[90vw] flex-col gap-4 rounded-xl border p-4 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+>
+  <img
+    src={full.src}
+    alt={site.name}
+    width="640"
+    height="640"
+    class="max-h-[70dvh] w-auto rounded-lg object-contain"
+  />
+
+  <div class="flex items-center justify-between gap-4">
+    <a
+      href={downloadHref}
+      download={filename}
+      class="border-border hover:border-muted-foreground hover:text-foreground focus-visible:outline-foreground flex items-center gap-2 rounded-md border px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.06em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <path d="M7 10l5 5 5-5"></path>
+        <path d="M12 15V3"></path>
+      </svg>
+      Download
+    </a>
+
+    <button
+      type="button"
+      id="avatar-close"
+      class="text-muted-foreground hover:text-foreground focus-visible:outline-foreground cursor-pointer rounded-md px-2 py-1.5 font-mono text-[0.68rem] tracking-[0.06em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      Close
+    </button>
+  </div>
+</dialog>
+
+<script is:inline>
+  (function () {
+    var trigger = document.getElementById('avatar-trigger');
+    var dialog = document.getElementById('avatar-dialog');
+    var close = document.getElementById('avatar-close');
+    if (!trigger || !dialog) return;
+
+    trigger.addEventListener('click', function () {
+      dialog.showModal();
+    });
+
+    if (close) {
+      close.addEventListener('click', function () {
+        dialog.close();
+      });
+    }
+
+    // Clicks that land on the backdrop report the dialog itself as the target.
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) dialog.close();
+    });
+  })();
+</script>

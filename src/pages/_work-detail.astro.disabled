@@ -1,0 +1,173 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+
+import { site } from '../../data/site';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { title, description, url, cover, coverAlt, role, timeframe, stack } =
+  entry.data;
+const { Content } = await render(entry);
+
+const meta = [
+  role && { label: 'Role', value: role },
+  timeframe && { label: 'Timeframe', value: timeframe },
+  stack?.length && { label: 'Stack', value: stack.join(', ') },
+].filter(Boolean) as { label: string; value: string }[];
+---
+
+<Layout title={`${title} | ${site.name}`} description={description}>
+  <div class="flex flex-col gap-6">
+    <a
+      href="/"
+      class="label hover:text-foreground focus-visible:outline-foreground w-fit rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      &larr; Back
+    </a>
+
+    <div class="flex flex-col gap-2">
+      <h1 class="text-2xl font-semibold tracking-[-0.02em]">{title}</h1>
+      <p class="text-muted-foreground text-[0.92rem]">{description}</p>
+    </div>
+
+    {
+      cover && (
+        <Image
+          src={cover}
+          alt={coverAlt ?? ''}
+          widths={[576, 1152]}
+          sizes="(max-width: 640px) 100vw, 576px"
+          class="border-border aspect-[16/10] w-full rounded-lg border object-cover"
+        />
+      )
+    }
+
+    {
+      (meta.length > 0 || url) && (
+        <dl class="border-border flex flex-col gap-2 border-y py-4">
+          {meta.map((item) => (
+            <div class="grid grid-cols-[6.5rem_1fr] gap-3 text-[0.85rem]">
+              <dt class="label">{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+          {url && (
+            <div class="grid grid-cols-[6.5rem_1fr] gap-3 text-[0.85rem]">
+              <dt class="label">Live</dt>
+              <dd>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="focus-visible:outline-foreground rounded-sm underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  {url.replace(/^https?:\/\//, '').replace(/\/$/, '')}{' '}
+                  <span aria-hidden="true">&#8599;</span>
+                </a>
+              </dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Minimal prose styles for the Markdown body — enough for case studies
+     without pulling in the typography plugin. */
+  .prose {
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  .prose :global(> * + *) {
+    margin-top: 1.1em;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 2em;
+  }
+
+  .prose :global(h3) {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 1.6em;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+
+  .prose :global(ul) {
+    list-style: disc;
+  }
+
+  .prose :global(ol) {
+    list-style: decimal;
+  }
+
+  .prose :global(a) {
+    color: inherit;
+    text-underline-offset: 2px;
+    text-decoration: underline;
+    text-decoration-color: var(--muted-foreground);
+  }
+
+  .prose :global(a:hover) {
+    text-decoration-color: currentColor;
+  }
+
+  .prose :global(img) {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    width: 100%;
+    height: auto;
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    color: var(--muted-foreground);
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--border-soft);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+  }
+
+  .prose :global(pre) {
+    background: var(--border-soft);
+    border-radius: var(--radius);
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+</style>
