@@ -14,6 +14,6 @@ export const site = {
     { platform: 'YouTube', link: 'https://youtube.com/@hqasmei' },
     { platform: 'X', link: 'https://x.com/hqasmei' },
     { platform: 'LinkedIn', link: 'https://linkedin.com/in/hosnaqasmei' },
-    { platform: 'Email', link: 'mailto:hello@hosnaqasmei.com' },
+    { platform: 'Email', link: 'mailto:hosna.qasmei@gmail.com' },
   ],
 };
