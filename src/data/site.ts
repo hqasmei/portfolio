@@ -5,7 +5,7 @@ export const site = {
   // which can't carry links or markup. The version people read is the marked-up
   // one in src/pages/index.astro; keep the two roughly in sync.
   description:
-    'Software engineer in Los Angeles. Building software since 2019, mostly at early-stage startups. Currently working on PickFresh, an app for buying and selling homegrown food with your neighbors.',
+    'Software engineer in Los Angeles. Building software since 2019, mostly at early-stage startups. Currently working on PickFresh.',
   url: 'https://hosnaqasmei.com',
   // Order is deliberate: the ends of the row get read, the middle gets skimmed.
   // GitHub leads (proof of work), Email anchors the end (the action).

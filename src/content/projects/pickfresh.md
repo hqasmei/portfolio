@@ -1,21 +1,22 @@
 ---
-title: Seclai
-description: Production infrastructure for AI applications
+title: PickFresh
+description: Buy and sell homegrown food with your neighbors
 year: '2025'
-order: 2
-url: https://seclai.com/
-cover: ../../assets/seclai-cover.png
-coverAlt: "The Seclai homepage: Everything you need around your LLM calls, above the agent dashboard"
+order: 1
+display: card
+url: https://pickfresh.net/
+cover: ../../assets/pickfresh-cover.png
+coverAlt: "The PickFresh homepage: Fresh from your neighbor's backyard, with the app shown on three phones"
 # Optional metadata shown at the top of this page — delete any you don't want.
 # role: Founder & Engineer
-# timeframe: 2025 — present
-# stack: [Astro, TypeScript]
+# timeframe: 2024 — present
+# stack: [Astro, TypeScript, Postgres]
 ---
 
 TODO — replace everything below.
 
-A paragraph or two on what Seclai is and who it's for. Lead with the problem,
-not the tech.
+A paragraph or two on what PickFresh is and who it's for. Lead with the
+problem, not the tech.
 
 ## What I built
 

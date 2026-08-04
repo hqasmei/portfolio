@@ -1,13 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
 
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectRow from '../components/ProjectRow.astro';
 import Section from '../components/Section.astro';
-import WorkCard from '../components/WorkCard.astro';
 import Layout from '../layouts/Layout.astro';
 
-const entries = (await getCollection('work')).sort(
+const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+// Anything not explicitly marked `list` gets a card, so a missing or
+// unrecognised `display` can never quietly demote an entry.
+const listed = projects.filter((entry) => entry.data.display === 'list');
+const featured = projects.filter((entry) => entry.data.display !== 'list');
 
 // Inline links: bold is the at-rest signal, underline appears on hover.
 const linkClass =
@@ -20,7 +26,7 @@ const linkClass =
     <p class="pt-3 text-[0.92rem] leading-7">
       I'm a <strong class="font-semibold">software engineer</strong> in Los Angeles.
       I've been building software since 2019, most of it at early-stage startups,
-      and I've made a few <a
+      and I make <a
         href="https://youtube.com/@hqasmei"
         target="_blank"
         rel="noopener noreferrer"
@@ -30,19 +36,24 @@ const linkClass =
         target="_blank"
         rel="noopener noreferrer"
         class={linkClass}>PickFresh</a
-      >, an app for buying and selling homegrown food with your neighbors.
+      >.
     </p>
   </Section>
 
-  {
-    entries.length > 0 && (
-      <Section label="Work">
-        <div class="flex flex-col gap-9 pt-5">
-          {entries.map((entry) => (
-            <WorkCard entry={entry} />
+  <Section label="Portfolio">
+    <div class="flex flex-col gap-9 pt-5">
+      {featured.map((entry) => <ProjectCard entry={entry} />)}
+    </div>
+
+    {/* Smaller builds trail the cards as compact rows, under the same heading. */}
+    {
+      listed.length > 0 && (
+        <div class="border-border-soft mt-9 flex flex-col gap-5 border-t pt-6">
+          {listed.map((entry) => (
+            <ProjectRow entry={entry} />
           ))}
         </div>
-      </Section>
-    )
-  }
+      )
+    }
+  </Section>
 </Layout>
