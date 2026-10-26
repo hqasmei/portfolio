@@ -1,0 +1,96 @@
+---
+import { site } from '../data/site';
+
+// Copies the address rather than opening mailto — plenty of people have no
+// mail app wired up, and a link that does nothing reads as broken. A small
+// toast under the button confirms it. If the clipboard is unavailable it falls
+// back to mailto. Icons: lucide `mail` and `check`.
+---
+
+<div class="relative">
+  <button
+    id="email-button"
+    type="button"
+    data-email={site.email}
+    aria-label="Copy email address"
+    class="text-muted-foreground hover:text-foreground hover:bg-border-soft focus-visible:outline-foreground -mr-1.5 grid h-8 w-8 cursor-pointer place-items-center rounded-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+    </svg>
+  </button>
+
+  <div
+    id="email-toast"
+    role="status"
+    aria-live="polite"
+    data-open="false"
+    class="bg-background border-border pointer-events-none absolute top-full right-0 z-20 mt-2 flex translate-y-1 items-start gap-2.5 rounded-lg border py-2.5 pr-4 pl-3 whitespace-nowrap opacity-0 shadow-sm transition duration-200 data-[open=true]:translate-y-0 data-[open=true]:opacity-100"
+  >
+    <span
+      class="bg-foreground text-background mt-0.5 grid size-4 shrink-0 place-items-center rounded-full"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="10"
+        height="10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M20 6 9 17l-5-5"></path>
+      </svg>
+    </span>
+    {/* Filled in on click, so screen readers only announce it then. */}
+    <span id="email-toast-text" class="flex flex-col"></span>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('email-button');
+    var toast = document.getElementById('email-toast');
+    var text = document.getElementById('email-toast-text');
+    if (!btn || !toast || !text) return;
+    var email = btn.getAttribute('data-email');
+    var timer;
+
+    function show() {
+      text.innerHTML =
+        '<span class="text-[0.85rem] font-semibold">Email copied</span>' +
+        '<span class="text-muted-foreground text-[0.8rem]"></span>';
+      text.lastChild.textContent = email;
+      toast.setAttribute('data-open', 'true');
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.setAttribute('data-open', 'false');
+      }, 2000);
+    }
+
+    btn.addEventListener('click', function () {
+      if (!navigator.clipboard) {
+        window.location.href = 'mailto:' + email;
+        return;
+      }
+      navigator.clipboard.writeText(email).then(show, function () {
+        window.location.href = 'mailto:' + email;
+      });
+    });
+  })();
+</script>

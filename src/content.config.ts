@@ -27,7 +27,14 @@ const projects = defineCollection({
        * when the detail pages come back (see src/pages/_project-detail.astro.disabled).
        */
       url: z.string().url(),
-      /** Card image. Put the file in `src/assets/` and reference it here. */
+      /** Square app icon shown on the index row. Lives in `src/assets/logos/`. */
+      logo: image().optional(),
+      /**
+       * For transparent marks (no background of their own): sits the logo on
+       * a tinted tile with padding, so it matches the filled app icons.
+       */
+      logoInset: z.boolean().default(false),
+      /** Detail-page hero image. Put the file in `src/assets/` and reference it here. */
       cover: image().optional(),
       coverAlt: z.string().optional(),
       /** Detail-page metadata. Omit any you don't want shown. */

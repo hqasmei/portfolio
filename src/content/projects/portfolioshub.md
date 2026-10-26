@@ -4,9 +4,8 @@ description: A curated collection of developer portfolios for inspiration
 year: '2023'
 order: 3
 display: card
+logo: ../../assets/logos/portfolioshub.png
 url: https://portfolioshub.com/
-cover: ../../assets/portfolioshub-cover.png
-coverAlt: 'The PortfoliosHub homepage: Best place to find portfolio inspiration, above a grid of submitted portfolio screenshots'
 # Optional metadata shown at the top of this page — delete any you don't want.
 # role: Founder & Engineer
 # timeframe: 2023 — 2024

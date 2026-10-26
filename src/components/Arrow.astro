@@ -1,0 +1,26 @@
+---
+// lucide `arrow-up-right`, rounded caps. Drifts on hover when the parent link
+// has the `group` class.
+interface Props {
+  size?: number;
+}
+
+const { size = 14 } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.25"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class="text-muted-foreground group-hover:text-foreground shrink-0 transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+>
+  <path d="M7 17 17 7"></path>
+  <path d="M7 7h10v10"></path>
+</svg>

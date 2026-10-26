@@ -1,5 +1,6 @@
 ---
 import Avatar from './Avatar.astro';
+import EmailButton from './EmailButton.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { site } from '../data/site';
 ---
@@ -19,5 +20,8 @@ import { site } from '../data/site';
     </a>
   </div>
 
-  <ThemeToggle />
+  <div class="flex items-center gap-1">
+    <ThemeToggle />
+    <EmailButton />
+  </div>
 </header>

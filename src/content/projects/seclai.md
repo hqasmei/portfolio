@@ -4,9 +4,9 @@ description: Production infrastructure for AI applications
 year: '2025'
 order: 2
 display: card
+logo: ../../assets/logos/seclai.svg
+logoInset: true
 url: https://seclai.com/
-cover: ../../assets/seclai-cover.png
-coverAlt: "The Seclai homepage: Everything you need around your LLM calls, above the agent dashboard"
 # Optional metadata shown at the top of this page — delete any you don't want.
 # role: Founder & Engineer
 # timeframe: 2025 — present

@@ -1,59 +1,141 @@
 ---
 import { getCollection } from 'astro:content';
 
-import ProjectCard from '../components/ProjectCard.astro';
+import Arrow from '../components/Arrow.astro';
 import ProjectRow from '../components/ProjectRow.astro';
+import Rows from '../components/Rows.astro';
 import Section from '../components/Section.astro';
+import { GITHUB_USER, getTopRepos } from '../data/github';
+import { site } from '../data/site';
+import { getPopularVideos } from '../data/youtube';
 import Layout from '../layouts/Layout.astro';
 
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
 );
+const videos = await getPopularVideos();
+const { repos, totalStars } = await getTopRepos(4);
 
-// Anything not explicitly marked `list` gets a card, so a missing or
-// unrecognised `display` can never quietly demote an entry.
-const listed = projects.filter((entry) => entry.data.display === 'list');
-const featured = projects.filter((entry) => entry.data.display !== 'list');
+const compact = new Intl.NumberFormat('en', { notation: 'compact' });
+const monthYear = new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' });
 
 // Inline links: bold is the at-rest signal, underline appears on hover.
 const linkClass =
   'font-semibold underline-offset-2 hover:underline focus-visible:outline-foreground rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2';
+
+// Every row in a bordered list is one whole link with the same hover.
+const rowClass =
+  'group hover:bg-border-soft focus-visible:outline-foreground flex items-center gap-3 rounded-xl p-2 transition-colors focus-visible:outline-2';
 ---
 
 <Layout>
-  <Section label="About">
-    {/* The plain-text twin of this lives in src/data/site.ts for meta tags. */}
-    <p class="pt-3 text-[0.92rem] leading-7">
-      I'm a <strong class="font-semibold">software engineer</strong> in Los Angeles.
-      I've been building software since 2019, most of it at early-stage startups,
-      and I make <a
-        href="https://youtube.com/@hqasmei"
-        target="_blank"
-        rel="noopener noreferrer"
-        class={linkClass}>videos</a
-      > on web and mobile development. Right now I'm working on <a
-        href="https://pickfresh.net/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class={linkClass}>PickFresh</a
-      >.
-    </p>
+  {/* The plain-text twin of this lives in src/data/site.ts for meta tags. */}
+  <p class="text-[0.92rem] leading-7">
+    I'm a <strong class="font-semibold">software engineer</strong> in Los Angeles.
+    I've been building software since 2019, most of it at early-stage startups,
+    and I make <a
+      href="https://youtube.com/@hqasmei"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={linkClass}>videos</a
+    > on web and mobile development. Right now I'm working on <a
+      href="https://pickfresh.net/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={linkClass}>PickFresh</a
+    >.
+  </p>
+
+  <Section label="Projects">
+    <Rows>
+      {projects.map((entry) => <ProjectRow entry={entry} />)}
+    </Rows>
   </Section>
 
-  <Section label="Portfolio">
-    <div class="flex flex-col gap-9 pt-5">
-      {featured.map((entry) => <ProjectCard entry={entry} />)}
-    </div>
-
-    {/* Smaller builds trail the cards as compact rows, under the same heading. */}
-    {
-      listed.length > 0 && (
-        <div class="border-border-soft mt-9 flex flex-col gap-5 border-t pt-6">
-          {listed.map((entry) => (
-            <ProjectRow entry={entry} />
+  {
+    videos.length > 0 && (
+      <Section
+        label="Popular videos"
+        link={{ href: 'https://youtube.com/@hqasmei/videos', text: 'All videos' }}
+      >
+        <Rows>
+          {videos.map((video) => (
+            <a href={video.url} target="_blank" rel="noopener noreferrer" class={rowClass}>
+              <img
+                src={video.thumbnail}
+                alt=""
+                width="320"
+                height="180"
+                loading="lazy"
+                decoding="async"
+                class="border-border aspect-video w-20 shrink-0 rounded-md border object-cover sm:w-24"
+              />
+              <div class="min-w-0 flex-1">
+                <span class="line-clamp-2 text-[0.92rem] leading-snug font-semibold">
+                  {video.title}
+                </span>
+                <span class="text-muted-foreground font-mono text-[0.75rem]">
+                  {compact.format(video.views)} views
+                </span>
+              </div>
+              <span class="text-muted-foreground hidden shrink-0 font-mono text-[0.75rem] sm:block">
+                {monthYear.format(video.published)}
+              </span>
+              <Arrow />
+            </a>
           ))}
-        </div>
-      )
-    }
+        </Rows>
+      </Section>
+    )
+  }
+
+  {
+    repos.length > 0 && (
+      <Section
+        label="Open source"
+        link={{
+          href: `https://github.com/${GITHUB_USER}`,
+          text: `${compact.format(totalStars)} stars on GitHub`,
+        }}
+      >
+        <Rows>
+          {repos.map((repo) => (
+            <a href={repo.url} target="_blank" rel="noopener noreferrer" class={rowClass}>
+              <div class="min-w-0 flex-1">
+                <span class="text-[0.92rem] font-semibold">
+                  {repo.name}
+                </span>
+                <p class="text-muted-foreground text-[0.85rem] leading-snug">
+                  {repo.description}
+                </p>
+              </div>
+              <span class="text-muted-foreground shrink-0 font-mono text-[0.75rem]">
+                {repo.stars} stars
+              </span>
+              <Arrow />
+            </a>
+          ))}
+        </Rows>
+      </Section>
+    )
+  }
+
+  <Section label="Connect with me">
+    {/* Plain text links: muted at rest, full color on hover. */}
+    <div class="flex flex-wrap gap-x-5 gap-y-2">
+      {
+        site.social.map((social) => (
+          <a
+            href={social.link}
+            {...(social.platform !== 'Email'
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
+            class="text-muted-foreground hover:text-foreground focus-visible:outline-foreground rounded-sm text-[0.9rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            {social.platform}
+          </a>
+        ))
+      }
+    </div>
   </Section>
 </Layout>

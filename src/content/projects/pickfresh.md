@@ -4,9 +4,8 @@ description: Buy and sell homegrown food with your neighbors
 year: '2025'
 order: 1
 display: card
+logo: ../../assets/logos/pickfresh.png
 url: https://pickfresh.net/
-cover: ../../assets/pickfresh-cover.png
-coverAlt: "The PickFresh homepage: Fresh from your neighbor's backyard, with the app shown on three phones"
 # Optional metadata shown at the top of this page — delete any you don't want.
 # role: Founder & Engineer
 # timeframe: 2024 — present

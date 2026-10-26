@@ -1,12 +1,31 @@
 ---
+import Arrow from './Arrow.astro';
+
 interface Props {
   label: string;
+  /** Optional "see more" link on the right of the label. */
+  link?: { href: string; text: string };
 }
 
-const { label } = Astro.props;
+const { label, link } = Astro.props;
 ---
 
 <section>
-  <h2 class="label border-border block border-b pb-2.5">{label}</h2>
+  <div class="mb-3 flex items-baseline justify-between gap-4">
+    <h2 class="label">{label}</h2>
+    {
+      link && (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group text-muted-foreground hover:text-foreground focus-visible:outline-foreground flex items-center gap-1 rounded-sm text-[0.8rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          {link.text}
+          <Arrow size={12} />
+        </a>
+      )
+    }
+  </div>
   <slot />
 </section>

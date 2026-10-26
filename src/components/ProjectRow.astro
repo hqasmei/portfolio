@@ -1,47 +1,44 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+
+import Arrow from './Arrow.astro';
 
 interface Props {
   entry: CollectionEntry<'projects'>;
 }
 
 const { entry } = Astro.props;
-const { title, description, year, url } = entry.data;
+const { title, description, url, logo, logoInset } = entry.data;
+
+// The tile is white in both themes, so a transparent mark reads like the
+// filled app icons beside it (and doesn't vanish into the row's hover color).
+const tile = 'size-10 shrink-0 overflow-hidden rounded-[10px]';
 ---
 
 <a
   href={url}
   target="_blank"
   rel="noopener noreferrer"
-  class="group focus-visible:outline-foreground block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
+  class="group hover:bg-border-soft focus-visible:outline-foreground flex items-center gap-3 rounded-xl p-2 transition-colors focus-visible:outline-2"
 >
-  <div class="flex items-baseline justify-between gap-4">
-    <span class="flex items-center gap-1.5">
-      <span
-        class="text-[0.92rem] font-semibold underline-offset-4 group-hover:underline"
-        >{title}</span
-      >
-      <!-- lucide `arrow-up-right`, rounded caps. Drifts on hover. -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.25"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        class="text-muted-foreground group-hover:text-foreground shrink-0 transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-      >
-        <path d="M7 17 17 7"></path>
-        <path d="M7 7h10v10"></path>
-      </svg>
-    </span>
-    <span class="text-muted-foreground shrink-0 font-mono text-[0.78rem]"
-      >{year}</span
+  {
+    !logo ? (
+      <div class:list={[tile, 'border-border border border-dashed']} />
+    ) : logoInset ? (
+      <div class:list={[tile, 'border-border grid place-items-center border bg-white p-2']}>
+        <Image src={logo} alt="" width={48} height={48} class="size-full" />
+      </div>
+    ) : (
+      <Image src={logo} alt="" width={80} height={80} class:list={[tile, 'object-cover']} />
+    )
+  }
+
+  <div class="min-w-0 flex-1">
+    <span class="text-[0.92rem] font-semibold"
+      >{title}</span
     >
+    <p class="text-muted-foreground text-[0.85rem] leading-snug">{description}</p>
   </div>
-  <p class="text-muted-foreground mt-0.5 text-[0.87rem]">{description}</p>
+  <Arrow />
 </a>
