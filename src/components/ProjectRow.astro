@@ -6,10 +6,13 @@ import Arrow from './Arrow.astro';
 
 interface Props {
   entry: CollectionEntry<'projects'>;
+  /** Replaces the entry's one-liner, e.g. a longer case-study blurb. */
+  description?: string;
 }
 
 const { entry } = Astro.props;
-const { title, description, url, logo, logoInset } = entry.data;
+const { title, url, logo, logoInset } = entry.data;
+const description = Astro.props.description ?? entry.data.description;
 
 // The tile is white in both themes, so a transparent mark reads like the
 // filled app icons beside it (and doesn't vanish into the row's hover color).

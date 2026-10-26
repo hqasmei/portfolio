@@ -1,0 +1,129 @@
+---
+import { getEntry } from 'astro:content';
+
+import Arrow from '../components/Arrow.astro';
+import ProjectRow from '../components/ProjectRow.astro';
+import Rows from '../components/Rows.astro';
+import Section from '../components/Section.astro';
+import { site } from '../data/site';
+import {
+  bookingLink,
+  builds,
+  caseStudy,
+  companyLegal,
+  consulting,
+  process,
+  projectInquiryLink,
+} from '../data/services';
+import Layout from '../layouts/Layout.astro';
+
+const caseEntry = await getEntry('projects', caseStudy.id);
+
+// Each offer ends in one filled button: consulting books directly, builds
+// apply first. No side notes; the booking page and form carry the fine print.
+const actionClass =
+  'group bg-foreground text-background focus-visible:outline-foreground mt-5 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-[0.88rem] font-semibold transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2';
+---
+
+<Layout
+  title={`Work with me | ${site.name}`}
+  description={`Consulting calls and contract web and mobile app builds through ${companyLegal}.`}
+>
+  <div>
+    <h1 class="text-[1.15rem] font-semibold tracking-[-0.015em]">Work with me</h1>
+    <p class="mt-2 text-[0.92rem] leading-7">
+      I help founders and teams turn ideas into shipped web and mobile apps.
+    </p>
+  </div>
+
+  <Section label="Consulting" id="consulting">
+    <div class="flex flex-col gap-4">
+      {
+        consulting.map((offer) => (
+          <div>
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="text-[0.92rem] font-semibold">{offer.name}</h3>
+              <span class="text-muted-foreground shrink-0 font-mono text-[0.75rem]">
+                {offer.detail}
+              </span>
+            </div>
+            <p class="text-muted-foreground text-[0.85rem] leading-snug">
+              {offer.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <a href={bookingLink} target="_blank" rel="noopener noreferrer" class={actionClass}>
+      Book a strategy call
+      <Arrow inheritColor />
+    </a>
+  </Section>
+
+  <Section label="Contract builds" id="builds">
+    <p class="text-[0.92rem] leading-7">{builds.intro}</p>
+    <ul class="text-muted-foreground mt-3 grid gap-x-6 gap-y-1 text-[0.85rem] sm:grid-cols-2">
+      {
+        builds.includes.map((item) => (
+          <li class="before:bg-muted-foreground flex items-center gap-2.5 before:size-1 before:shrink-0 before:rounded-full">
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="mt-5 text-[0.88rem] font-semibold">A good fit if</h3>
+    <ul class="mt-1.5 flex flex-col gap-1 text-[0.85rem]">
+      {
+        builds.goodFit.map((item) => (
+          <li class="flex gap-2.5">
+            <span aria-hidden="true" class="text-muted-foreground w-3 shrink-0">✓</span>
+            <span class="sr-only">Good fit:</span>
+            {item}
+          </li>
+        ))
+      }
+      {
+        builds.notFit.map((item) => (
+          <li class="text-muted-foreground flex gap-2.5">
+            <span aria-hidden="true" class="w-3 shrink-0">✗</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href={projectInquiryLink} target="_blank" rel="noopener noreferrer" class={actionClass}>
+      Start a project
+      <Arrow inheritColor />
+    </a>
+  </Section>
+
+  {
+    caseEntry && (
+      <Section label="Recent work">
+        <Rows>
+          <ProjectRow entry={caseEntry} description={caseStudy.description} />
+        </Rows>
+      </Section>
+    )
+  }
+
+  <Section label="How a build works">
+    <ol class="flex flex-col gap-2">
+      {
+        process.map((item, i) => (
+          <li class="flex items-baseline gap-4 text-[0.88rem]">
+            <span class="text-muted-foreground w-5 shrink-0 font-mono text-[0.75rem]">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span>
+              <span class="font-semibold">{item.step}</span>
+              <span class="text-muted-foreground"> · {item.description}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+</Layout>

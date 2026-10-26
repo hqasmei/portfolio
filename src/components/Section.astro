@@ -3,14 +3,16 @@ import Arrow from './Arrow.astro';
 
 interface Props {
   label: string;
+  /** Anchor for in-page links, e.g. /work-with-me#consulting. */
+  id?: string;
   /** Optional "see more" link on the right of the label. */
   link?: { href: string; text: string };
 }
 
-const { label, link } = Astro.props;
+const { label, link, id } = Astro.props;
 ---
 
-<section>
+<section id={id} class="scroll-mt-8">
   <div class="mb-3 flex items-baseline justify-between gap-4">
     <h2 class="label">{label}</h2>
     {

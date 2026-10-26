@@ -16,6 +16,22 @@ const projects = (await getCollection('projects')).sort(
 const videos = await getPopularVideos();
 const { repos, totalStars } = await getTopRepos(4);
 
+// Teasers for /work-with-me; prices there live in src/data/services.ts.
+const services = [
+  {
+    title: 'Consulting',
+    description: '1-on-1 calls on app ideas, tech stacks, and working AI-first.',
+    price: 'From $200',
+    href: '/work-with-me#consulting',
+  },
+  {
+    title: 'Contract builds',
+    description: 'Web and mobile apps, built through HQ Solutions.',
+    price: 'From $5K',
+    href: '/work-with-me#builds',
+  },
+];
+
 const compact = new Intl.NumberFormat('en', { notation: 'compact' });
 const monthYear = new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' });
 
@@ -45,6 +61,27 @@ const rowClass =
       class={linkClass}>PickFresh</a
     >.
   </p>
+
+  <Section label="Work with me">
+    <Rows>
+      {
+        services.map((service) => (
+          <a href={service.href} class={rowClass}>
+            <div class="min-w-0 flex-1">
+              <span class="text-[0.92rem] font-semibold">{service.title}</span>
+              <p class="text-muted-foreground text-[0.85rem] leading-snug">
+                {service.description}
+              </p>
+            </div>
+            <span class="text-muted-foreground shrink-0 font-mono text-[0.75rem]">
+              {service.price}
+            </span>
+            <Arrow internal />
+          </a>
+        ))
+      }
+    </Rows>
+  </Section>
 
   <Section label="Projects">
     <Rows>

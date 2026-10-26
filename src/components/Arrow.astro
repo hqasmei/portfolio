@@ -1,11 +1,14 @@
 ---
-// lucide `arrow-up-right`, rounded caps. Drifts on hover when the parent link
-// has the `group` class.
+// lucide `arrow-up-right` for links that leave the site, `arrow-right` for
+// pages on it. Drifts on hover when the parent link has the `group` class.
 interface Props {
   size?: number;
+  internal?: boolean;
+  /** Use the parent's text color, e.g. inside a filled button. */
+  inheritColor?: boolean;
 }
 
-const { size = 14 } = Astro.props;
+const { size = 14, internal = false, inheritColor = false } = Astro.props;
 ---
 
 <svg
@@ -19,8 +22,25 @@ const { size = 14 } = Astro.props;
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden="true"
-  class="text-muted-foreground group-hover:text-foreground shrink-0 transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+  class:list={[
+    'shrink-0 transition-all duration-200 ease-out',
+    !inheritColor && 'text-muted-foreground group-hover:text-foreground',
+    internal
+      ? 'group-hover:translate-x-0.5'
+      : 'group-hover:-translate-y-0.5 group-hover:translate-x-0.5',
+  ]}
 >
-  <path d="M7 17 17 7"></path>
-  <path d="M7 7h10v10"></path>
+  {
+    internal ? (
+      <>
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </>
+    ) : (
+      <>
+        <path d="M7 17 17 7" />
+        <path d="M7 7h10v10" />
+      </>
+    )
+  }
 </svg>
